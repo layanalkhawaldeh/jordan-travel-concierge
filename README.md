@@ -1,4 +1,3 @@
-<img width="1892" height="926" alt="image" src="https://github.com/user-attachments/assets/f0757906-bc8a-4e9c-b9bd-44a38299f289" /># 🇯🇴 Jordan Travel Concierge
 
 An **Agentic AI-powered travel planning platform** designed to create personalized travel experiences across Jordan.
 
