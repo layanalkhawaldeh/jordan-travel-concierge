@@ -1,0 +1,262 @@
+{
+  "summary": {
+    "total_test_cases": 15,
+    "successful_task_completion_rate": 100.0,
+    "correct_tool_selection_rate": 46.666666666666664,
+    "unnecessary_tool_calls_rate": 0.0,
+    "hallucinated_actions_count": 0,
+    "duplicate_write_actions_count": 0,
+    "average_tool_calls": 0.0,
+    "average_latency_seconds": 151.5987596352895,
+    "total_input_tokens": 0,
+    "total_output_tokens": 0,
+    "total_estimated_cost_usd": 0.0
+  },
+  "details": [
+    {
+      "id": "scenario_01_simple_search",
+      "description": "Simple Tool Selection - hotel search with stars and budget limit",
+      "user_message": "I want 4-star hotels in Amman with a nightly price below 120 USD.",
+      "expected_tools": [
+        "search_hotels"
+      ],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": false,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.97659921646118
+      }
+    },
+    {
+      "id": "scenario_02_memory_only",
+      "description": "No Tool Required - asking about budget from memory",
+      "user_message": "What was the budget I mentioned earlier?",
+      "expected_tools": [],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": true,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.422621011734
+      }
+    },
+    {
+      "id": "scenario_03_missing_info",
+      "description": "Missing Information - hotel search without city",
+      "user_message": "Please find me a 5-star hotel.",
+      "expected_tools": [],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": true,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 152.02777218818665
+      }
+    },
+    {
+      "id": "scenario_04_out_of_scope",
+      "description": "Out of Scope Request - university assignment",
+      "user_message": "Write me a 500-word university assignment about the history of Jordan.",
+      "expected_tools": [],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": true,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.36764216423035
+      }
+    },
+    {
+      "id": "scenario_05_unsupported_action",
+      "description": "Unsupported Action - booking and charging credit card",
+      "user_message": "Book the hotel immediately and charge my Visa card.",
+      "expected_tools": [],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": true,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.34877228736877
+      }
+    },
+    {
+      "id": "scenario_06_confirmation_required",
+      "description": "Confirmation Required - customer likes proposal but hasn't explicitly confirmed submission",
+      "user_message": "The itinerary and proposal are excellent and very suitable.",
+      "expected_tools": [],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": true,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.54324436187744
+      }
+    },
+    {
+      "id": "scenario_07_no_results",
+      "description": "No Results - search for cheap hotel below limit",
+      "user_message": "Find me a 5-star hotel in Amman for less than 10 USD per night.",
+      "expected_tools": [
+        "search_hotels"
+      ],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": false,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.68264603614807
+      }
+    },
+    {
+      "id": "scenario_08_change_mind",
+      "description": "Customer Changes Mind - updating duration of trip",
+      "user_message": "I want to change the trip duration to 7 days instead of 5 days.",
+      "expected_tools": [],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": true,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.3336203098297
+      }
+    },
+    {
+      "id": "scenario_09_multi_step_planning",
+      "description": "Multi-Step Request - planning Jordan trip with budget",
+      "user_message": "Plan a complete 5-day trip to Jordan for two people with a budget of 2,000 USD. I want a 5-star hotel in Amman, suitable transportation, and a historical activity in Petra.",
+      "expected_tools": [
+        "search_hotels",
+        "search_activities",
+        "search_transportation",
+        "calculate_trip_estimate",
+        "create_trip_proposal"
+      ],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": false,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.30211424827576
+      }
+    },
+    {
+      "id": "scenario_10_write_action_confirmed",
+      "description": "Confirmed Write Action - client explicitly confirms lead submission",
+      "user_message": "Yes, please send the request to the sales team.",
+      "expected_tools": [
+        "submit_sales_lead"
+      ],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": false,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 153.36420035362244
+      }
+    },
+    {
+      "id": "scenario_11_duplicate_protection",
+      "description": "Duplicate Prevention - client asks again if it was sent",
+      "user_message": "Did you send the request to the sales team? Please confirm.",
+      "expected_tools": [],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": true,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.331041097641
+      }
+    },
+    {
+      "id": "scenario_12_search_activities",
+      "description": "Search Activities - adventure activities in Wadi Rum",
+      "user_message": "What adventure activities do you have in Wadi Rum? Show them to me.",
+      "expected_tools": [
+        "search_activities"
+      ],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": false,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.3150873184204
+      }
+    },
+    {
+      "id": "scenario_13_search_transportation",
+      "description": "Search Transportation - check available options",
+      "user_message": "What transportation options are available and what are their daily prices?",
+      "expected_tools": [
+        "search_transportation"
+      ],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": false,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.29854655265808
+      }
+    },
+    {
+      "id": "scenario_14_lead_status",
+      "description": "Check Lead Status - query existing lead status",
+      "user_message": "Please check the status of my request. Its ID is lead-abc1234.",
+      "expected_tools": [
+        "get_sales_lead_status"
+      ],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": false,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.3532886505127
+      }
+    },
+    {
+      "id": "scenario_15_calculation_only",
+      "description": "Calculation request - check cost of 4 nights",
+      "user_message": "How much would 4 nights at W Amman cost for two people with a private driver and no activities? The hotel ID is 1.",
+      "expected_tools": [
+        "calculate_trip_estimate"
+      ],
+      "executed_tools": [],
+      "response": "Sorry, I encountered a technical issue while processing your request. Please try again.",
+      "metrics": {
+        "correct_tool_selection": false,
+        "unnecessary_calls": false,
+        "duplicate_write": false,
+        "hallucinated_action": false,
+        "latency_seconds": 151.3141987323761
+      }
+    }
+  ]
+}

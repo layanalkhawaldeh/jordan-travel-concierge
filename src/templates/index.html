@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jordan Royal Concierge - Premium Travel Planning Services</title>
+    <!-- Tailwind CSS & DaisyUI -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@3.5.0/dist/full.css" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- Google Fonts: Playfair Display (Luxury Serif) & Inter (Premium Clean Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+    
+    <!-- Leaflet.js Mapping Library (Interactive Route Map) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
+    <!-- Chart.js Library (Dynamic Budget Breakdown) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        desert: {
+                            50: '#fdf8f5',
+                            100: '#fbeee6',
+                            200: '#f7dccb',
+                            300: '#f0be9f',
+                            400: '#e5966d',
+                            500: '#dc7445',
+                            600: '#ce572b',
+                            700: '#ab4220',
+                            800: '#8b3b24', // Deep Royal Desert Red
+                            900: '#703120',
+                        },
+                        rose: {
+                            gold: '#d4af37', // Petra sandstone gold
+                        }
+                    },
+                    fontFamily: {
+                        playfair: ['Playfair Display', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fdf8f5;
+        }
+        .hero-banner {
+            background-image: linear-gradient(rgba(139, 59, 36, 0.50), rgba(40, 20, 15, 0.85)), 
+                              url('https://images.unsplash.com/photo-1501232060322-aa87215ab531?w=1600&auto=format&fit=crop&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        .font-luxury {
+            font-family: 'Playfair Display', serif;
+        }
+        .chat-bubble-primary {
+            background-color: #8b3b24 !important;
+            color: #ffffff !important;
+        }
+        .chat-bubble-neutral {
+            background-color: #fbeee6 !important;
+            color: #4a2015 !important;
+            border: 1px solid #f7dccb;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fdf8f5;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e5966d;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #dc7445;
+        }
+        #route-map {
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col overflow-x-hidden" dir="ltr">
+
+    <!-- LANDING PAGE VIEW (Welcome Screen - LTR English) -->
+    <div id="landing-page" class="flex flex-col min-h-screen transition-all duration-700 ease-in-out">
+        <!-- Hero Section -->
+        <div class="hero hero-banner min-h-[85vh] text-white flex flex-col justify-between p-6">
+            <!-- Top bar -->
+            <div class="w-full flex justify-between items-center max-w-7xl mx-auto">
+                <div class="flex items-center space-x-2">
+                    <span class="text-3xl">🇯🇴</span>
+                    <span class="text-lg font-bold uppercase tracking-widest font-luxury text-white">Jordan Royal Concierge</span>
+                </div>
+                <button class="btn btn-sm btn-outline btn-warning font-semibold border-rose-gold text-rose-gold hover:bg-rose-gold hover:text-slate-900 font-luxury" onclick="switchView('admin')">
+                    👥 Agent Review Portal
+                </button>
+            </div>
+
+            <!-- Hero Body -->
+            <div class="hero-content text-center my-auto">
+                <div class="max-w-2xl">
+                    <span class="badge badge-warning p-3 mb-4 font-bold text-xs uppercase tracking-wider font-sans">Official Tourism Services</span>
+                    <h1 class="text-4xl md:text-6xl font-black mb-4 leading-tight font-luxury">Plan Your Elite Jordanian Journey</h1>
+                    <p class="mb-8 text-sm md:text-base text-orange-100 font-light max-w-lg mx-auto font-sans">
+                        Explore verified historical castles, check transport rates, configure premium hotel packages, and finalize bookings directly with our live concierge desk.
+                    </p>
+                    <div class="flex justify-center gap-4">
+                        <button class="btn btn-warning btn-md md:btn-lg font-bold shadow-lg hover:scale-105 transition font-luxury text-slate-900 px-8" onclick="enterApp()">
+                            Begin Custom Itinerary
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="animate-bounce text-2xl pb-4">
+                <i class="fa-solid fa-angles-down"></i>
+            </div>
+        </div>
+
+        <!-- Featured Destinations Grid (Clickable prompt injectors using Unsplash images) -->
+        <section class="max-w-7xl mx-auto py-16 px-6 w-full flex-grow">
+            <h2 class="text-3xl font-bold text-slate-800 text-center mb-2 font-luxury">Discover Historic Jordan 🇯🇴</h2>
+            <p class="text-slate-500 text-center text-xs mb-12 max-w-md mx-auto font-sans">Click on any destination card below to directly open a curated concierge session</p>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Petra -->
+                <div class="card bg-white shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden border border-slate-100 group cursor-pointer" onclick="injectPrompt('Petra')">
+                    <figure class="h-44 overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1501232060322-aa87215ab531?w=600&auto=format&fit=crop&q=80" alt="Petra Treasury" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"/>
+                        <span class="absolute top-2 right-2 badge badge-warning font-bold text-[10px] font-sans">World Wonder</span>
+                    </figure>
+                    <div class="card-body p-4 text-left">
+                        <h3 class="card-title text-sm font-bold text-slate-800 font-luxury flex justify-between w-full">
+                            <span>Petra - Rose Red City</span>
+                            <i class="fa-solid fa-plane-arrival text-xs text-desert-600"></i>
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-sans">Carved into sandstone cliffs by Nabataeans. Free entry with the Jordan Pass. Click to plan.</p>
+                    </div>
+                </div>
+
+                <!-- Wadi Rum -->
+                <div class="card bg-white shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden border border-slate-100 group cursor-pointer" onclick="injectPrompt('Wadi Rum')">
+                    <figure class="h-44 overflow-hidden relative">
+                        <img src="/static/wadi_rum.jpg" alt="Wadi Rum Sandstones" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"/>
+                        <span class="absolute top-2 right-2 badge badge-warning font-bold text-[10px] font-sans">Desert Safaris</span>
+                    </figure>
+                    <div class="card-body p-4 text-left">
+                        <h3 class="card-title text-sm font-bold text-slate-800 font-luxury flex justify-between w-full">
+                            <span>Wadi Rum Desert Camp</span>
+                            <i class="fa-solid fa-plane-arrival text-xs text-desert-600"></i>
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-sans">Striking red-sand canyons, sandstone towers, Bedouin camps, and stargazing decks. Click to plan.</p>
+                    </div>
+                </div>
+
+                <!-- Dead Sea -->
+                <div class="card bg-white shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden border border-slate-100 group cursor-pointer" onclick="injectPrompt('Dead Sea')">
+                    <figure class="h-44 overflow-hidden relative">
+                        <img src="/static/dead_sea.png" alt="Dead Sea Salt Formations" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"/>
+                        <span class="absolute top-2 right-2 badge badge-warning font-bold text-[10px] font-sans">Natural Wellness</span>
+                    </figure>
+                    <div class="card-body p-4 text-left">
+                        <h3 class="card-title text-sm font-bold text-slate-800 font-luxury flex justify-between w-full">
+                            <span>Dead Sea Salt Shore</span>
+                            <i class="fa-solid fa-plane-arrival text-xs text-desert-600"></i>
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-sans">The lowest point on Earth, famous for hyper-saline waters and mineral-rich muds. Click to plan.</p>
+                    </div>
+                </div>
+
+                <!-- Jerash -->
+                <div class="card bg-white shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden border border-slate-100 group cursor-pointer" onclick="injectPrompt('Jerash')">
+                    <figure class="h-44 overflow-hidden relative">
+                        <img src="/static/jerash.jpg" alt="Jerash Oval Plaza Columns" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"/>
+                        <span class="absolute top-2 right-2 badge badge-warning font-bold text-[10px] font-sans">Roman Decapolis</span>
+                    </figure>
+                    <div class="card-body p-4 text-left">
+                        <h3 class="card-title text-sm font-bold text-slate-800 font-luxury flex justify-between w-full">
+                            <span>Jerash Roman Plaza</span>
+                            <i class="fa-solid fa-plane-arrival text-xs text-desert-600"></i>
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-sans">The world's best-preserved Graeco-Roman Decapolis city, featuring columns. Click to plan.</p>
+                    </div>
+                </div>
+
+                <!-- Umm Qais -->
+                <div class="card bg-white shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden border border-slate-100 group cursor-pointer" onclick="injectPrompt('Umm Qais')">
+                    <figure class="h-44 overflow-hidden relative">
+                        <img src="/static/umm_qais.jpg" alt="Umm Qais Basalt Ruins" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"/>
+                        <span class="absolute top-2 right-2 badge badge-warning font-bold text-[10px] font-sans">Scenic Ruins</span>
+                    </figure>
+                    <div class="card-body p-4 text-left">
+                        <h3 class="card-title text-sm font-bold text-slate-800 font-luxury flex justify-between w-full">
+                            <span>Umm Qais Ancient Ruins</span>
+                            <i class="fa-solid fa-plane-arrival text-xs text-desert-600"></i>
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-sans">A stunning view of the Sea of Galilee, showing black basalt amphitheaters. Click to plan.</p>
+                    </div>
+                </div>
+
+                <!-- Karak Castle -->
+                <div class="card bg-white shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden border border-slate-100 group cursor-pointer" onclick="injectPrompt('Karak Castle')">
+                    <figure class="h-44 overflow-hidden relative">
+                        <img src="/static/karak.png" alt="Kerak Castle Walls" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"/>
+                        <span class="absolute top-2 right-2 badge badge-warning font-bold text-[10px] font-sans">Crusader Stronghold</span>
+                    </figure>
+                    <div class="card-body p-4 text-left">
+                        <h3 class="card-title text-sm font-bold text-slate-800 font-luxury flex justify-between w-full">
+                            <span>Karak Crusader Castle</span>
+                            <i class="fa-solid fa-plane-arrival text-xs text-desert-600"></i>
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-sans">An imposing medieval castle built during Crusader times, featuring tunnels. Click to plan.</p>
+                    </div>
+                </div>
+
+                <!-- Amman Citadel -->
+                <div class="card bg-white shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden border border-slate-100 group cursor-pointer" onclick="injectPrompt('Amman Citadel')">
+                    <figure class="h-44 overflow-hidden relative">
+                        <img src="/static/amman_citadel.jpg" alt="Temple of Hercules Columns" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"/>
+                        <span class="absolute top-2 right-2 badge badge-warning font-bold text-[10px] font-sans">Roman Hercules Temple</span>
+                    </figure>
+                    <div class="card-body p-4 text-left">
+                        <h3 class="card-title text-sm font-bold text-slate-800 font-luxury flex justify-between w-full">
+                            <span>Amman Citadel Sights</span>
+                            <i class="fa-solid fa-plane-arrival text-xs text-desert-600"></i>
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-sans">Ancient ruins located on Jabal al-Qal'a, showcasing Temple of Hercules. Click to plan.</p>
+                    </div>
+                </div>
+
+                <!-- Madaba and Mount Nebo -->
+                <div class="card bg-white shadow-md hover:shadow-xl hover:scale-[1.02] transition duration-300 overflow-hidden border border-slate-100 group cursor-pointer" onclick="injectPrompt('Mount Nebo')">
+                    <figure class="h-44 overflow-hidden relative">
+                        <img src="/static/mount_nebo.png" alt="Mount Nebo Memorial View" class="w-full h-full object-cover group-hover:scale-110 transition duration-500"/>
+                        <span class="absolute top-2 right-2 badge badge-warning font-bold text-[10px] font-sans">Biblical Mosaic Maps</span>
+                    </figure>
+                    <div class="card-body p-4 text-left">
+                        <h3 class="card-title text-sm font-bold text-slate-800 font-luxury flex justify-between w-full">
+                            <span>Mount Nebo Memorial</span>
+                            <i class="fa-solid fa-plane-arrival text-xs text-desert-600"></i>
+                        </h3>
+                        <p class="text-xs text-slate-500 leading-relaxed font-sans">Overlooks the Dead Sea and Jordan Valley; features early Christian mosaics. Click to plan.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-slate-900 text-slate-400 text-xs py-8 text-center border-t border-slate-800 font-sans">
+            <p>© 2026 Jordan Royal Concierge. All Rights Reserved. Ministry of Tourism & Antiquities, Jordan.</p>
+        </footer>
+    </div>
+
+
+    <!-- MAIN CLIENT APP VIEW -->
+    <div id="client-view" class="hidden flex-grow flex flex-col h-screen">
+        <!-- App Header -->
+        <header class="bg-desert-800 text-white shadow-lg py-4 px-6 flex justify-between items-center flex-shrink-0">
+            <div class="flex items-center space-x-3">
+                <button class="btn btn-sm btn-ghost text-white mr-1" onclick="toggleSidebar()" title="Toggle Navigation Sidebar">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <span class="text-2xl">🇯🇴</span>
+                <div>
+                    <h1 class="text-base md:text-lg font-bold font-luxury text-white">Jordan Royal Concierge</h1>
+                    <p class="text-[9px] text-orange-200 font-sans">Official Destination Travel & Booking Portal</p>
+                </div>
+            </div>
+            
+            <div class="flex items-center space-x-3 font-sans">
+                <!-- Currency Switcher -->
+                <div class="flex items-center space-x-1 mr-2">
+                    <span class="text-[10px] text-orange-200">Currency:</span>
+                    <select id="currency-switcher" class="select select-xs select-warning font-sans border-orange-700 bg-desert-900 text-white text-[10px]" onchange="changeCurrency(this.value)">
+                        <option value="USD">USD ($)</option>
+                        <option value="JOD">JOD (د.أ)</option>
+                        <option value="EUR">EUR (€)</option>
+                    </select>
+                </div>
+
+                <div class="btn-group border border-orange-700 rounded-lg overflow-hidden">
+                    <button id="tab-client" class="btn btn-xs bg-warning text-slate-900 border-none font-bold px-3 py-1">✈️ Traveler View</button>
+                    <button id="tab-admin" class="btn btn-xs btn-ghost text-white border-none font-bold px-3 py-1" onclick="switchView('admin')">👥 Agent View</button>
+                </div>
+                <button class="btn btn-xs btn-outline btn-warning font-semibold" onclick="returnToLanding()">🏠 Home</button>
+            </div>
+        </header>
+
+        <!-- App Grid Layout -->
+        <div class="flex-grow flex overflow-hidden w-full max-w-[1600px] mx-auto p-4 gap-4">
+            
+            <!-- Sidebar: Conversations List -->
+            <aside id="sidebar-container" class="w-64 bg-white shadow rounded-xl p-4 flex flex-col h-full overflow-hidden flex-shrink-0 font-sans">
+                <button class="btn btn-sm bg-desert-800 text-white hover:bg-desert-900 w-full gap-2 mb-4 border-none text-xs" onclick="startNewChat()">
+                    <i class="fa-solid fa-plus text-[10px]"></i> New Planning Session
+                </button>
+                <h4 class="text-[9px] font-bold text-gray-400 uppercase tracking-wider mb-2 text-left">Chat Histories</h4>
+                <!-- History container -->
+                <div class="flex-grow overflow-y-auto space-y-1.5 pr-1 text-left" id="chat-history-list">
+                    <!-- Loaded dynamically -->
+                </div>
+                
+                <!-- Side Itinerary Comparer Deck -->
+                <div class="mt-4 border-t pt-3 flex flex-col space-y-2">
+                    <h5 class="text-[10px] font-bold text-slate-400 uppercase">Compare Deck</h5>
+                    <div id="compare-deck-count" class="text-xs text-slate-600">Compared proposals: <strong id="comp-count">0</strong> / 2</div>
+                    <button id="btn-show-compare" class="btn btn-xs btn-outline btn-warning w-full font-bold hidden" onclick="showItinerariesComparison()">
+                        ⚖️ Compare Proposals
+                    </button>
+                </div>
+            </aside>
+
+            <!-- Main Content Area: Chat, Memory, Route Map -->
+            <main class="flex-grow flex gap-4 overflow-hidden h-full">
+                
+                <!-- Left Section: Chat dialogue -->
+                <section class="flex-grow flex flex-col bg-white shadow rounded-xl border border-slate-100 overflow-hidden h-full">
+                    <!-- Session details bar -->
+                    <div class="bg-desert-50 border-b border-desert-100 px-4 py-3 flex justify-between items-center flex-shrink-0 text-left font-sans">
+                        <div>
+                            <span class="text-xs font-bold text-desert-800 font-luxury" id="session-title">Royal Concierge</span>
+                            <span class="text-[9px] text-gray-400 block" id="session-date">Session securely cached in central database</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="btn btn-xs btn-circle btn-ghost text-red-600" onclick="resetCurrentSession()" title="Clear and delete this session">
+                                <i class="fa-solid fa-trash-can text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Chat Message Area -->
+                    <div class="flex-grow overflow-y-auto p-4 space-y-4 text-left" id="chat-box">
+                        <!-- Default greeting -->
+                        <div class="chat chat-start">
+                            <div class="chat-image avatar placeholder">
+                                <div class="bg-desert-800 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-xs">Staff</div>
+                            </div>
+                            <div class="chat-bubble chat-bubble-primary text-sm font-semibold">
+                                Welcome to Jordan Royal Concierge. How may we assist you with your travels, destinations, hotel bookings, or drivers today? ✈️🇯🇴
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input Area -->
+                    <div class="p-3 border-t bg-slate-50 flex-shrink-0 font-sans">
+                        <form id="chat-form" onsubmit="handleSend(event)" class="flex gap-2">
+                            <input type="text" id="user-input" placeholder="Type your query to plan your itinerary, update budget, or request booking..." class="input input-sm input-bordered flex-grow text-left text-xs" required />
+                            <button type="submit" class="btn btn-sm bg-desert-800 text-white hover:bg-desert-900 border-none px-4 text-xs">
+                                Send Message <i class="fa-solid fa-paper-plane ml-1 text-[10px]"></i>
+                            </button>
+                        </form>
+                    </div>
+                </section>
+
+                <!-- Right Section: Memory & Route Map (Clean luxury view) -->
+                <section class="w-80 flex flex-col space-y-4 h-full flex-shrink-0 font-sans">
+                    <!-- Live Traveler Memory -->
+                    <div class="card bg-white shadow border border-slate-100 overflow-hidden flex flex-col max-h-[55%] flex-shrink-0">
+                        <div class="bg-desert-800 text-white p-3 flex justify-between items-center flex-shrink-0">
+                            <h3 class="font-extrabold text-xs flex items-center font-luxury">
+                                <i class="fa-solid fa-brain mr-1.5 text-yellow-300"></i>
+                                Live Traveler Memory Profile
+                            </h3>
+                            <button class="btn btn-[10px] btn-circle btn-ghost text-white btn-xs" onclick="fetchMemoryUpdate()" title="Sync profile memory">
+                                <i class="fa-solid fa-rotate text-[10px]"></i>
+                            </button>
+                        </div>
+                        <div class="p-3 overflow-y-auto space-y-3 text-left" id="memory-profile">
+                            <div class="text-slate-400 italic text-center py-4 text-xs font-sans">Begin planning with the concierge to compile profile parameters...</div>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Route Map Card (Expanded size) -->
+                    <div class="card bg-white shadow border border-slate-100 overflow-hidden flex flex-col flex-grow min-h-[300px]">
+                        <div class="bg-slate-800 text-white p-2.5 flex justify-between items-center flex-shrink-0 text-xs font-bold font-luxury">
+                            <span>🗺️ Interactive Route Map</span>
+                            <span class="text-[9px] text-gray-300 font-light font-sans" id="map-drive-time">Drive Time: -</span>
+                        </div>
+                        <div id="route-map" class="w-full flex-grow bg-slate-100"></div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+
+    <!-- ADMIN REVIEW PORTAL VIEW -->
+    <div id="admin-view" class="hidden flex-grow flex flex-col h-screen font-sans">
+        <header class="bg-slate-900 text-white shadow-lg py-4 px-6 flex justify-between items-center flex-shrink-0">
+            <div class="flex items-center space-x-3">
+                <span class="text-2xl">👥</span>
+                <div>
+                    <h1 class="text-lg font-bold font-luxury text-slate-100">Bespoke Concierge Lead & Booking Review Portal</h1>
+                    <p class="text-[10px] text-blue-300">Approve, reject, or modify submitted qualified leads and direct sandbox bookings</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-2">
+                <button class="btn btn-xs btn-warning font-bold font-luxury text-slate-900" onclick="switchView('client')">✈️ Back to Traveler View</button>
+                <button class="btn btn-xs btn-outline btn-info" onclick="refreshAdminData()">Refresh Data 🔄</button>
+            </div>
+        </header>
+
+        <!-- Analytics Dashboard Banner -->
+        <div class="bg-slate-100 px-6 py-4 flex-shrink-0">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-[1600px] mx-auto">
+                <div class="stats shadow bg-white border border-slate-100">
+                    <div class="stat p-3">
+                        <div class="stat-figure text-amber-500"><i class="fa-solid fa-ticket text-2xl"></i></div>
+                        <div class="stat-title text-[10px] uppercase font-bold text-slate-400 font-luxury">Total System Bookings</div>
+                        <div class="stat-value text-xl text-slate-800" id="stat-total-bookings">0</div>
+                        <div class="stat-desc text-[9px]">Direct hotel & transport confirmations</div>
+                    </div>
+                </div>
+                
+                <div class="stats shadow bg-white border border-slate-100">
+                    <div class="stat p-3">
+                        <div class="stat-figure text-emerald-500"><i class="fa-solid fa-briefcase text-2xl"></i></div>
+                        <div class="stat-title text-[10px] uppercase font-bold text-slate-400 font-luxury">Average Client Budget</div>
+                        <div class="stat-value text-xl text-slate-800" id="stat-avg-budget">$0.00</div>
+                        <div class="stat-desc text-[9px]">Excluding travel agency service markup</div>
+                    </div>
+                </div>
+                
+                <div class="stats shadow bg-white border border-slate-100">
+                    <div class="stat p-3">
+                        <div class="stat-figure text-sky-500"><i class="fa-solid fa-location-dot text-2xl"></i></div>
+                        <div class="stat-title text-[10px] uppercase font-bold text-slate-400 font-luxury">Top Travel Destination</div>
+                        <div class="stat-value text-xl text-slate-800 font-luxury" id="stat-top-dest">Petra & Amman</div>
+                        <div class="stat-desc text-[9px]">Verified hotspot from sales lead indices</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex-grow flex overflow-hidden p-4 gap-4 max-w-[1600px] mx-auto w-full">
+            <!-- Left Side: Lists of requests -->
+            <div class="w-80 flex flex-col space-y-4 h-full flex-shrink-0 overflow-y-auto">
+                <!-- Sales Leads Card -->
+                <div class="card bg-white shadow border border-gray-150 p-4">
+                    <h3 class="font-extrabold text-xs text-slate-700 mb-3 uppercase tracking-wider border-b pb-2 flex justify-between font-luxury font-bold">
+                        <span>Qualified Sales Leads</span>
+                        <i class="fa-solid fa-briefcase text-emerald-600"></i>
+                    </h3>
+                    <div id="admin-leads-list" class="space-y-2 max-h-60 overflow-y-auto">
+                        <div class="text-gray-400 italic text-center text-xs">No leads submitted yet...</div>
+                    </div>
+                </div>
+
+                <!-- Bookings Card -->
+                <div class="card bg-white shadow border border-gray-150 p-4">
+                    <h3 class="font-extrabold text-xs text-slate-700 mb-3 uppercase tracking-wider border-b pb-2 flex justify-between font-luxury font-bold">
+                        <span>Direct Bookings (Sandbox)</span>
+                        <i class="fa-solid fa-receipt text-amber-600"></i>
+                    </h3>
+                    <div id="admin-bookings-list" class="space-y-2 max-h-60 overflow-y-auto">
+                        <div class="text-gray-400 italic text-center text-xs">No bookings created yet...</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Details and action panel -->
+            <div class="flex-grow card bg-white shadow-xl border border-gray-150 p-5 flex flex-col h-full overflow-hidden">
+                <div id="admin-details-placeholder" class="flex-grow flex flex-col items-center justify-center text-gray-400 italic">
+                    <i class="fa-solid fa-folder-open text-5xl mb-3 text-slate-200"></i>
+                    Select a Sales Lead or Direct Booking from the list to review details and submit decisions
+                </div>
+
+                <div id="admin-details-content" class="hidden flex-grow flex flex-col h-full overflow-hidden text-left">
+                    <!-- Title header of selected lead -->
+                    <div class="flex justify-between items-start border-b pb-3 mb-4 flex-shrink-0">
+                        <div>
+                            <span class="badge badge-sm badge-info mb-1 font-luxury" id="review-item-type">LEAD</span>
+                            <h3 class="font-bold text-lg text-slate-800 font-luxury" id="review-item-id">lead-xxxx</h3>
+                            <p class="text-[10px] text-gray-400">Created on: -</p>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-[10px] text-gray-400 block font-luxury">Total Price</span>
+                            <strong class="text-xl text-desert-800" id="review-item-cost">$0.00</strong>
+                        </div>
+                    </div>
+
+                    <!-- Details sections -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 overflow-y-auto mb-4 flex-grow text-xs pr-1">
+                        <!-- Profile and choices -->
+                        <div class="space-y-4">
+                            <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                                <h4 class="font-bold text-slate-700 mb-2 border-b pb-1 font-luxury">👤 Traveler Profile Card</h4>
+                                <div class="space-y-1.5 text-slate-600">
+                                    <div>Destination Spot: <strong id="rev-dest">-</strong></div>
+                                    <div>Travelers Count: <strong id="rev-travelers">-</strong></div>
+                                    <div>Trip Duration: <strong id="rev-dates">-</strong></div>
+                                    <div>Budget Limit: <strong id="rev-budget">-</strong></div>
+                                    <div>Preferences: <strong id="rev-prefs">-</strong></div>
+                                    <div>Special Demands: <strong id="rev-reqs">-</strong></div>
+                                </div>
+                            </div>
+                            <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                                <h4 class="font-bold text-orange-950 mb-2 border-b border-orange-200 pb-1 font-luxury">📦 Selected Itinerary Proposal</h4>
+                                <div class="space-y-1.5 text-orange-900">
+                                    <div>Selected Hotel: <strong id="rev-hotel">-</strong></div>
+                                    <div>Transportation: <strong id="rev-transport">-</strong></div>
+                                    <div>Guided Activities: <strong id="rev-activities">-</strong></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Full chat preview -->
+                        <div class="flex flex-col h-full bg-slate-900 text-slate-200 p-3 rounded-lg font-mono overflow-hidden">
+                            <h4 class="font-bold text-green-400 mb-2 flex-shrink-0 text-xs font-luxury">💬 Conversation Transcript Log</h4>
+                            <div class="flex-grow overflow-y-auto space-y-2 text-[10px] pr-1" id="rev-chat-logs">
+                                <!-- Loaded dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action decision form -->
+                    <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 mt-auto flex-shrink-0">
+                        <h4 class="font-bold text-slate-700 mb-2 text-xs font-luxury">✍️ Concierge Review Action & Comments</h4>
+                        <div class="grid grid-cols-2 gap-3 text-xs mb-3">
+                            <div class="form-control">
+                                <label class="label p-0 pb-1"><span class="label-text text-[10px] font-bold">Reviewer Name:</span></label>
+                                <input type="text" id="reviewer-name-input" class="input input-xs input-bordered w-full" value="Senior Concierge Agent" />
+                            </div>
+                            <div class="form-control">
+                                <label class="label p-0 pb-1"><span class="label-text text-[10px] font-bold">Submit Status:</span></label>
+                                <select id="reviewer-status-select" class="select select-xs select-bordered w-full font-bold font-luxury">
+                                    <option value="approved">Approve Proposal ✅</option>
+                                    <option value="modified">Mark as Modified ✏️</option>
+                                    <option value="rejected">Reject Proposal ❌</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-control mb-3 text-xs">
+                            <label class="label p-0 pb-1"><span class="label-text text-[10px] font-bold">Reviewer Comments / Instructions:</span></label>
+                            <textarea id="reviewer-comments-input" placeholder="Type comments and recommendations for the client here..." class="textarea textarea-bordered textarea-xs h-12 w-full"></textarea>
+                        </div>
+                        <button class="btn btn-xs bg-desert-800 text-white hover:bg-desert-900 border-none w-full font-bold font-luxury" onclick="submitReviewAction()">Submit Concierge Verdict 🚀</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ITINERARY COMPARISON MODAL -->
+    <input type="checkbox" id="comparison-modal-toggle" class="modal-toggle" />
+    <div class="modal font-sans" id="comparison-modal">
+        <div class="modal-box max-w-4xl bg-white text-slate-800">
+            <h3 class="font-bold text-lg font-luxury text-desert-800 border-b pb-2 flex items-center justify-between">
+                <span>⚖️ Side-by-Side Proposal Comparison</span>
+                <label for="comparison-modal-toggle" class="btn btn-xs btn-circle btn-ghost">✕</label>
+            </h3>
+            <div class="grid grid-cols-2 gap-4 py-4" id="comparison-deck-grid">
+                <!-- Injected dynamically -->
+            </div>
+            <div class="modal-action">
+                <label for="comparison-modal-toggle" class="btn btn-sm btn-desert bg-desert-800 border-none text-white font-bold">Close Comparison</label>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- JS CLIENT LOGIC -->
+    <script>
+        let currentConversationId = null;
+        let chatHistoryCache = [];
+        let executionLogsCache = [];
+        
+        // Multi-currency Switcher bindings
+        let currentCurrency = "USD";
+        const exchangeRates = {
+            "USD": 1.0,
+            "JOD": 0.71, // 1 USD = 0.71 JOD
+            "EUR": 0.92  // 1 USD = 0.92 EUR
+        };
+        const currencySymbols = {
+            "USD": "$",
+            "JOD": "JOD",
+            "EUR": "€"
+        };
+
+        // Comparison deck array
+        let comparedProposals = [];
+
+        // Route coordinates mapping for Leaflet polyline routing
+        const jordanCoordinates = {
+            "Amman": [31.9522, 35.9106],
+            "Petra": [30.3285, 35.4444],
+            "Wadi Rum": [29.5735, 35.4333],
+            "Dead Sea": [31.5019, 35.4792],
+            "Aqaba": [29.5321, 35.0063],
+            "Jerash": [32.2723, 35.8914],
+            "Umm Qais": [32.6542, 35.6883],
+            "Karak": [31.1852, 35.7048],
+            "Karak Castle": [31.1852, 35.7048]
+        };
+
+        window.onload = async function() {
+            await fetchChatHistory(true);
+        };
+
+        // Navigation helpers
+        function enterApp() {
+            document.getElementById("landing-page").classList.add("hidden");
+            document.getElementById("client-view").classList.remove("hidden");
+            setTimeout(initMap, 200); // Initialize map once container is visible
+            if (!currentConversationId) {
+                startNewChat();
+            }
+        }
+
+        function returnToLanding() {
+            document.getElementById("client-view").classList.add("hidden");
+            document.getElementById("admin-view").classList.add("hidden");
+            document.getElementById("landing-page").classList.remove("hidden");
+        }
+
+        function switchView(view) {
+            const client = document.getElementById("client-view");
+            const admin = document.getElementById("admin-view");
+            const tabClient = document.getElementById("tab-client");
+            const tabAdmin = document.getElementById("tab-admin");
+            const landing = document.getElementById("landing-page");
+
+            landing.classList.add("hidden");
+
+            if (view === "admin") {
+                client.classList.add("hidden");
+                admin.classList.remove("hidden");
+                tabClient.className = "btn btn-xs btn-ghost text-white border-none font-bold px-3 py-1 font-montserrat";
+                tabAdmin.className = "btn btn-xs bg-warning text-slate-900 border-none font-bold px-3 py-1 font-montserrat";
+                refreshAdminData();
+            } else {
+                client.classList.remove("hidden");
+                admin.classList.add("hidden");
+                tabClient.className = "btn btn-xs bg-warning text-slate-900 border-none font-bold px-3 py-1 font-montserrat";
+                tabAdmin.className = "btn btn-xs btn-ghost text-white border-none font-bold px-3 py-1 font-montserrat";
+                setTimeout(initMap, 200);
+            }
+        }
+
+        // Direct Prompt Injector
+        function injectPrompt(destination) {
+            enterApp();
+            
+            const promptText = `I want to plan a trip to ${destination}. Please suggest a premium hotel, transportation class, and local sightseeing details.`;
+            
+            // Wait slightly for session initialization if required
+            setTimeout(() => {
+                const input = document.getElementById("user-input");
+                input.value = promptText;
+                
+                // Directly trigger submission
+                handleSend(new Event('submit'));
+            }, 500);
+        }
+
+        // Currency converter helper
+        function convertPrice(usdPrice) {
+            if (usdPrice == null) return "-";
+            const amt = Number(usdPrice) * exchangeRates[currentCurrency];
+            return `${currencySymbols[currentCurrency]}${amt.toFixed(2)}`;
+        }
+
+        function changeCurrency(val) {
+            currentCurrency = val;
+            // Redraw panels
+            fetchMemoryUpdate();
+            renderComparedProposalsDeck();
+        }
+
+        // Fetch Conversations
+        async function fetchChatHistory(shouldSelectFirst = false) {
+            try {
+                const response = await fetch("/conversations");
+                if (!response.ok) throw new Error("Failed to load chat history");
+                chatHistoryCache = await response.json();
+                renderChatHistory();
+
+                if (shouldSelectFirst && chatHistoryCache.length > 0) {
+                    selectConversation(chatHistoryCache[0].conversation_id);
+                } else if (shouldSelectFirst) {
+                    await startNewChat();
+                }
+            } catch (error) {
+                console.error("History fetch error:", error);
+            }
+        }
+
+        // Render Conversation Sidebar list LTR
+        function renderChatHistory() {
+            const container = document.getElementById("chat-history-list");
+            container.innerHTML = "";
+
+            if (chatHistoryCache.length === 0) {
+                container.innerHTML = "<div class='text-gray-400 italic text-[10px] text-center py-2'>No historical sessions.</div>";
+                return;
+            }
+
+            chatHistoryCache.forEach(chat => {
+                const div = document.createElement("div");
+                const isActive = chat.conversation_id === currentConversationId;
+                
+                div.className = `p-2 rounded-lg cursor-pointer transition text-left text-xs flex flex-col relative group border ${
+                    isActive ? "bg-desert-100 border-desert-200 text-desert-900 font-bold" : "bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-700"
+                }`;
+                
+                div.onclick = () => selectConversation(chat.conversation_id);
+                div.innerHTML = `
+                    <div class="flex justify-between items-center w-full">
+                        <span class="truncate pr-3 font-semibold">${chat.title || "Travel Itinerary"}</span>
+                        <span class="text-[9px] text-gray-400 font-light ml-auto">${formatDateTime(chat.created_at)}</span>
+                    </div>
+                    <button class="absolute right-1 top-2.5 opacity-0 group-hover:opacity-100 btn btn-circle btn-ghost btn-xs text-red-500 hover:bg-red-50" onclick="event.stopPropagation(); deleteConversation('${chat.conversation_id}')">
+                        <i class="fa-solid fa-trash text-[9px]"></i>
+                    </button>
+                    <button class="absolute right-6 top-2.5 opacity-0 group-hover:opacity-100 btn btn-circle btn-ghost btn-xs text-blue-500 hover:bg-blue-50" onclick="event.stopPropagation(); renameChat('${chat.conversation_id}', '${chat.title}')">
+                        <i class="fa-solid fa-pen text-[9px]"></i>
+                    </button>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        async function startNewChat() {
+            try {
+                const response = await fetch("/conversations", { method: "POST" });
+                if (!response.ok) throw new Error("Could not start conversation");
+                const newChat = await response.json();
+                
+                currentConversationId = newChat.conversation_id;
+                await fetchChatHistory(false);
+                chatHistoryCache.unshift(newChat);
+                renderChatHistory();
+                
+                selectConversation(newChat.conversation_id);
+            } catch (error) {
+                console.error("Create session error:", error);
+            }
+        }
+
+        async function selectConversation(id) {
+            currentConversationId = id;
+            renderChatHistory();
+
+            const box = document.getElementById("chat-box");
+            box.innerHTML = "";
+
+            try {
+                const response = await fetch(`/conversations/${encodeURIComponent(id)}`);
+                if (!response.ok) throw new Error("Could not fetch conversation details");
+                const data = await response.json();
+
+                // Setup header
+                document.getElementById("session-title").innerText = data.title || "Royal Concierge";
+                document.getElementById("session-date").innerText = `Started: ${formatDateTime(data.created_at)}`;
+
+                // Load messages
+                const msgs = data.messages || [];
+                if (msgs.length === 0) {
+                    appendMessage("model", "Welcome to Jordan Royal Concierge. How may we assist you with your travels, destinations, hotel bookings, or drivers today? ✈️🇯🇴");
+                } else {
+                    msgs.forEach(msg => {
+                        appendMessage(msg.role, msg.content);
+                    });
+                }
+
+                // Populate profile panel
+                updateMemoryPanel(data.traveler_profile || {});
+                
+                // Fetch trace steps
+                await fetchExecutionLogs();
+
+            } catch (error) {
+                console.error("Load conversation error:", error);
+                box.innerHTML = `<div class='text-red-500 font-bold p-4 text-center text-xs'>Failed to load chat history: ${error.message}</div>`;
+            }
+        }
+
+        async function deleteConversation(id) {
+            if (!confirm("Are you sure you want to delete this trip planning session?")) return;
+            try {
+                const response = await fetch(`/conversations/${encodeURIComponent(id)}`, { method: "DELETE" });
+                if (!response.ok) throw new Error("Delete failed");
+                
+                if (currentConversationId === id) {
+                    currentConversationId = null;
+                }
+                await fetchChatHistory(true);
+            } catch (error) {
+                console.error("Delete error:", error);
+                alert("Could not remove session.");
+            }
+        }
+
+        // Send Message
+        async function handleSend(e) {
+            if (e) e.preventDefault();
+            const input = document.getElementById("user-input");
+            const text = input.value.trim();
+            if (!text || !currentConversationId) return;
+
+            // Append user text
+            appendMessage("user", text);
+            input.value = "";
+
+            appendTypingIndicator();
+
+            try {
+                const response = await fetch("/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        conversation_id: currentConversationId,
+                        message: text
+                    })
+                });
+                
+                removeTypingIndicator();
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || "Technical error");
+                }
+
+                const data = await response.json();
+                appendMessage("model", data.response);
+
+                // Reload profiles
+                await fetchMemoryUpdate();
+                await fetchExecutionLogs();
+
+            } catch (error) {
+                removeTypingIndicator();
+                appendMessage("model", "We apologize, a technical limit occurred. Please retry your message.");
+                console.error("Chat sending error:", error);
+            }
+        }
+
+        async function fetchMemoryUpdate() {
+            if (!currentConversationId) return;
+            try {
+                const response = await fetch(`/conversations/${encodeURIComponent(currentConversationId)}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    updateMemoryPanel(data.traveler_profile || {});
+                }
+            } catch (error) {
+                console.error("Memory sync error:", error);
+            }
+        }
+
+        function updateMemoryPanel(profile) {
+            const container = document.getElementById("memory-profile");
+            container.innerHTML = "";
+
+            const hasDetails = profile.destination || profile.budget || profile.adults || profile.hotel_preference || profile.current_proposal;
+            if (!hasDetails) {
+                container.innerHTML = "<div class='text-slate-400 italic text-center py-4 text-xs font-sans'>Share trip parameters with the concierge to populate profile details...</div>";
+                resetMapToJordanCenter();
+                return;
+            }
+
+            // Draw route on map based on destination
+            updateMapRoute(profile.destination, profile.current_proposal);
+
+            // Build Profile Details LTR with currency conversions
+            let budgetString = "Not Specified";
+            if (profile.budget) {
+                budgetString = convertPrice(profile.budget.amount);
+            }
+
+            let html = `<div class="space-y-2 text-slate-700 text-[11px] font-sans">`;
+            
+            if (profile.destination) html += `<div>📍 Destination: <strong>${profile.destination}</strong></div>`;
+            if (profile.adults != null) html += `<div>👥 Travelers: <strong>${profile.adults} Adults / ${profile.children || 0} Children</strong></div>`;
+            if (profile.travel_dates) html += `<div>📅 Scheduled Dates: <strong>${profile.travel_dates}</strong></div>`;
+            if (profile.budget) html += `<div>💰 Total Budget: <strong class="text-emerald-700 font-bold">${budgetString}</strong></div>`;
+            if (profile.hotel_preference) html += `<div>🏨 Hotel Preference: <strong>${profile.hotel_preference} stars</strong></div>`;
+            if (profile.transportation_preference) html += `<div>🚗 Transport Class: <strong>${profile.transportation_preference}</strong></div>`;
+            
+            const reqs = [...(profile.accessibility_requirements || []), ...(profile.special_requests || [])];
+            if (reqs.length > 0) html += `<div>⚠️ Key Demands: <strong>${reqs.join(", ")}</strong></div>`;
+            
+            html += `</div>`;
+
+            // Saved Proposal Detail Block
+            const proposal = profile.current_proposal;
+            if (proposal) {
+                const statusColor = proposal.budget_status === "Within Budget" ? "bg-emerald-50 border-emerald-200 text-emerald-950" : "bg-red-50 border-red-200 text-red-950";
+                const badgeColor = proposal.budget_status === "Within Budget" ? "badge-success" : "badge-error";
+                
+                const hotelUsd = (proposal.breakdown?.hotel?.price_per_night * proposal.duration_days) || 0;
+                const transportUsd = (proposal.breakdown?.transportation?.price_per_day * proposal.duration_days) || 0;
+                const activitiesUsd = proposal.breakdown?.activities?.reduce((sum, act) => sum + act.price, 0) * proposal.travelers_count || 0;
+                const totalUsd = proposal.total_cost ?? proposal.estimated_cost;
+                const remainingUsd = profile.budget ? Math.max(0, profile.budget.amount - totalUsd) : 0;
+
+                html += `
+                <div class="mt-3 border-t pt-3 p-2.5 rounded-lg border text-[11px] ${statusColor}" id="proposal-box">
+                    <span class="font-extrabold text-desert-800 block mb-1 font-montserrat">📋 Saved Trip Proposal:</span>
+                    <div class="space-y-1 font-sans">
+                        <div>🏨 Hotel: <strong>${proposal.hotel_name || "-"}</strong></div>
+                        <div>🚗 Transport: <strong>${proposal.transportation_type || "-"}</strong></div>
+                        <div>🎡 Activities: <strong>${(proposal.activities || []).join(", ") || "None"}</strong></div>
+                        <div class="flex justify-between items-center mt-1.5 border-t pt-1.5 border-slate-200 font-bold text-xs">
+                            <span>Bespoke Price:</span>
+                            <span class="text-sm font-extrabold text-desert-800">${convertPrice(totalUsd)}</span>
+                        </div>
+                        <div class="flex justify-between items-center text-[10px]">
+                            <span>Budget Fit:</span>
+                            <span class="badge badge-xs font-bold ${badgeColor}">${proposal.budget_status}</span>
+                        </div>
+                    </div>
+                    
+                    <!-- Dynamic Budget Chart Container -->
+                    <div class="mt-2.5 flex justify-center bg-white p-2 rounded border border-slate-100">
+                        <div class="w-24 h-24">
+                            <canvas id="budget-chart-canvas"></canvas>
+                        </div>
+                        <div class="text-[9px] text-slate-500 self-center pl-2 space-y-0.5">
+                            <div><span class="inline-block w-2 h-2 bg-desert-800 mr-1"></span>Hotel: ${convertPrice(hotelUsd)}</div>
+                            <div><span class="inline-block w-2 h-2 bg-desert-400 mr-1"></span>Transport: ${convertPrice(transportUsd)}</div>
+                            <div><span class="inline-block w-2 h-2 bg-rose-gold mr-1"></span>Activities: ${convertPrice(activitiesUsd)}</div>
+                        </div>
+                    </div>
+
+                    <!-- Direct Checkout Flow (Part 20) -->
+                    <div class="mt-3 pt-2 border-t border-dashed border-gray-300 space-y-2 font-sans" id="booking-actions-container">
+                        <div class="flex space-x-1">
+                            <button id="btn-create-booking" class="btn btn-xs bg-desert-800 hover:bg-desert-900 border-none text-white flex-grow font-bold" onclick="handleCreateBooking()">
+                                ⚡ Book Directly
+                            </button>
+                            <button class="btn btn-xs btn-outline btn-neutral" onclick="addProposalToCompareDeck()" title="Add to comparison deck">
+                                ⚖️ Compare
+                            </button>
+                        </div>
+                        <div id="booking-status-indicator" class="text-[10px] font-bold text-center mt-1 hidden">
+                            Booking Status: <span id="booking-status-txt" class="badge badge-warning badge-xs">pending_payment</span>
+                        </div>
+                        <button id="btn-pay-booking" class="btn btn-xs btn-warning w-full gap-1 hidden font-bold" onclick="handlePayBooking()">
+                            💳 Confirm & Pay (Simulate Checkout)
+                        </button>
+                    </div>
+                </div>`;
+                
+                setTimeout(() => {
+                    drawBudgetChart(hotelUsd, transportUsd, activitiesUsd, remainingUsd);
+                }, 100);
+            }
+
+            container.innerHTML = html;
+
+            if (proposal) {
+                const bookingStatus = profile.booking_status;
+                const bookingId = profile.active_booking_id;
+                
+                const btnCreate = document.getElementById("btn-create-booking");
+                const btnPay = document.getElementById("btn-pay-booking");
+                const indicator = document.getElementById("booking-status-indicator");
+                const statusTxt = document.getElementById("booking-status-txt");
+
+                if (bookingStatus === "booked") {
+                    btnCreate.classList.add("hidden");
+                    btnPay.classList.add("hidden");
+                    indicator.classList.remove("hidden");
+                    statusTxt.className = "badge badge-success badge-xs";
+                    statusTxt.innerText = "Confirmed & Paid ✅";
+                } else if (bookingStatus === "pending_payment") {
+                    btnCreate.classList.add("hidden");
+                    btnPay.classList.remove("hidden");
+                    indicator.classList.remove("hidden");
+                    statusTxt.className = "badge badge-warning badge-xs";
+                    statusTxt.innerText = `Pending Payment (${bookingId})`;
+                } else {
+                    btnCreate.classList.remove("hidden");
+                    btnPay.classList.add("hidden");
+                    indicator.classList.add("hidden");
+                }
+            }
+        }
+
+        // ⚖️ Comparison Deck Functions
+        async function addProposalToCompareDeck() {
+            if (!currentConversationId) return;
+            try {
+                const response = await fetch(`/conversations/${encodeURIComponent(currentConversationId)}`);
+                if (!response.ok) return;
+                const data = await response.json();
+                const proposal = data.traveler_profile?.current_proposal;
+                
+                if (!proposal) {
+                    alert("No trip proposal found to add to comparison deck.");
+                    return;
+                }
+
+                if (comparedProposals.find(p => p.proposal_id === proposal.proposal_id)) {
+                    alert("This proposal is already in your comparison deck.");
+                    return;
+                }
+
+                if (comparedProposals.length >= 2) {
+                    comparedProposals.shift();
+                }
+
+                comparedProposals.push(proposal);
+                renderComparedProposalsDeck();
+                alert("Proposal added to comparison deck!");
+            } catch (err) {
+                console.error("Comparison addition failed:", err);
+            }
+        }
+
+        function renderComparedProposalsDeck() {
+            const countSpan = document.getElementById("comp-count");
+            countSpan.innerText = comparedProposals.length;
+            
+            const btn = document.getElementById("btn-show-compare");
+            if (comparedProposals.length >= 1) {
+                btn.classList.remove("hidden");
+            } else {
+                btn.classList.add("hidden");
+            }
+        }
+
+        function showItinerariesComparison() {
+            if (comparedProposals.length === 0) return;
+            
+            const container = document.getElementById("comparison-deck-grid");
+            container.innerHTML = "";
+
+            comparedProposals.forEach((prop, idx) => {
+                const div = document.createElement("div");
+                div.className = "p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col justify-between";
+                
+                const hotelUsd = (prop.breakdown?.hotel?.price_per_night * prop.duration_days) || 0;
+                const transportUsd = (prop.breakdown?.transportation?.price_per_day * prop.duration_days) || 0;
+                const activitiesUsd = prop.breakdown?.activities?.reduce((sum, act) => sum + act.price, 0) * prop.travelers_count || 0;
+
+                div.innerHTML = `
+                    <div>
+                        <div class="badge badge-warning font-bold mb-2">Proposal Option ${idx+1}</div>
+                        <h4 class="font-bold text-desert-800 font-luxury text-base border-b pb-1 mb-2">${prop.hotel_name || "Bespoke Offer"}</h4>
+                        <div class="space-y-1.5 text-xs text-slate-700">
+                            <div>🏨 Accommodation: <strong>${prop.hotel_name} (${convertPrice(hotelUsd)})</strong></div>
+                            <div>🚗 Transportation: <strong>${prop.transportation_type} (${convertPrice(transportUsd)})</strong></div>
+                            <div>🎡 Activities: <strong>${(prop.activities || []).join(", ") || "None"} (${convertPrice(activitiesUsd)})</strong></div>
+                            <div>📅 Days / Travelers: <strong>${prop.duration_days} Days / ${prop.travelers_count} People</strong></div>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-3 border-t border-slate-200 flex justify-between items-center">
+                        <span class="font-extrabold text-sm">Total Estimate:</span>
+                        <span class="text-base font-black text-desert-800">${convertPrice(prop.total_cost ?? prop.estimated_cost)}</span>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+
+            if (comparedProposals.length === 1) {
+                const placeholder = document.createElement("div");
+                placeholder.className = "p-4 rounded-xl border border-dashed border-slate-300 flex flex-col items-center justify-center text-slate-400 italic text-xs";
+                placeholder.innerHTML = `
+                    <i class="fa-solid fa-plus-minus text-2xl mb-2 text-slate-300"></i>
+                    Add another proposal to compare side-by-side
+                `;
+                container.appendChild(placeholder);
+            }
+
+            document.getElementById("comparison-modal-toggle").checked = true;
+        }
+
+        // 📊 Chart.js rendering function
+        let budgetChartInstance = null;
+        function drawBudgetChart(hotelCost, transportCost, activityCost, remaining) {
+            const canvas = document.getElementById('budget-chart-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            if (budgetChartInstance) {
+                budgetChartInstance.destroy();
+            }
+            
+            budgetChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Hotel', 'Transport', 'Activities', 'Remaining'],
+                    datasets: [{
+                        data: [hotelCost, transportCost, activityCost, remaining],
+                        backgroundColor: ['#8b3b24', '#e5966d', '#d4af37', '#cbd5e1'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return `${context.label}: ${convertPrice(context.raw)}`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // 🗺️ Leaflet.js Route Mapping Functions
+        let routeMap = null;
+        let mapMarkers = [];
+        let mapPolyline = null;
+
+        function initMap() {
+            if (routeMap) return;
+            routeMap = L.map('route-map', {attributionControl: false}).setView([31.2, 35.8], 7);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(routeMap);
+        }
+
+        function resetMapToJordanCenter() {
+            if (!routeMap) return;
+            routeMap.setView([31.2, 35.8], 7);
+            clearMapRoute();
+        }
+
+        function clearMapRoute() {
+            if (mapPolyline) {
+                routeMap.removeLayer(mapPolyline);
+                mapPolyline = null;
+            }
+            mapMarkers.forEach(marker => routeMap.removeLayer(marker));
+            mapMarkers = [];
+            document.getElementById("map-drive-time").innerText = "Drive Time: -";
+        }
+
+        function updateMapRoute(destination, proposal) {
+            if (!routeMap) return;
+            clearMapRoute();
+
+            let routePoints = [jordanCoordinates["Amman"]];
+            let markersData = [{name: "Amman (Start)", coords: jordanCoordinates["Amman"]}];
+
+            if (destination && destination !== "Amman" && jordanCoordinates[destination]) {
+                routePoints.push(jordanCoordinates[destination]);
+                markersData.push({name: destination, coords: jordanCoordinates[destination]});
+            }
+
+            markersData.forEach(item => {
+                const marker = L.marker(item.coords).addTo(routeMap).bindPopup(`<b>${item.name}</b>`);
+                mapMarkers.push(marker);
+            });
+
+            if (routePoints.length >= 2) {
+                mapPolyline = L.polyline(routePoints, {color: '#8b3b24', weight: 4, opacity: 0.8}).addTo(routeMap);
+                routeMap.fitBounds(mapPolyline.getBounds(), {padding: [30, 30]});
+                
+                let hours = routePoints.length * 1.5;
+                document.getElementById("map-drive-time").innerText = `Drive Time: ~${hours.toFixed(1)} hrs`;
+            } else {
+                routeMap.setView(routePoints[0], 9);
+            }
+        }
+
+        // Direct Booking Sandbox Checkouts
+        async function handleCreateBooking() {
+            if (!currentConversationId) return;
+            const btn = document.getElementById("btn-create-booking");
+            btn.innerText = "Initiating Reservation...";
+            btn.disabled = true;
+
+            try {
+                const response = await fetch("/bookings", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ conversation_id: currentConversationId })
+                });
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.detail || "Booking initiation failed.");
+
+                appendMessage("model", `⚡ Booking successfully logged in sandboxed state! Booking ID: **${data.booking_id}**. Status: **pending_payment**. Please confirm payment to lock in the reservation.`);
+                await fetchMemoryUpdate();
+            } catch (error) {
+                alert(`Reservation failed: ${error.message}`);
+            } finally {
+                btn.innerText = "⚡ Book Directly";
+                btn.disabled = false;
+            }
+        }
+
+        async function handlePayBooking() {
+            try {
+                const response = await fetch(`/conversations/${encodeURIComponent(currentConversationId)}`);
+                if (!response.ok) return;
+                const data = await response.json();
+                const bookingId = data.traveler_profile?.active_booking_id;
+                if (!bookingId) {
+                    alert("No active booking record found to process payment.");
+                    return;
+                }
+
+                const btn = document.getElementById("btn-pay-booking");
+                btn.innerText = "Processing checkout simulation...";
+                btn.disabled = true;
+
+                const payResp = await fetch(`/bookings/${encodeURIComponent(bookingId)}/pay`, { method: "POST" });
+                const payData = await payResp.json();
+                if (!payResp.ok) throw new Error(payData.detail || "Payment failed.");
+
+                appendMessage("model", `🎉 Payment processed! Booking **${bookingId}** status set to **booked** (Confirmed). Accommodations locked.`);
+                await fetchMemoryUpdate();
+            } catch (error) {
+                alert(`Checkout failed: ${error.message}`);
+            } finally {
+                const btn = document.getElementById("btn-pay-booking");
+                btn.innerText = "💳 Confirm & Pay (Simulate Checkout)";
+                btn.disabled = false;
+            }
+        }
+
+        // Observability Trace Logs
+        async function fetchExecutionLogs() {
+            if (!currentConversationId) return;
+            try {
+                const response = await fetch(`/conversations/${encodeURIComponent(currentConversationId)}/logs`);
+                if (!response.ok) throw new Error("Could not load trace logs");
+                const logs = await response.json();
+                executionLogsCache = logs;
+                renderExecutionLogs();
+            } catch (error) {
+                console.error("Observability trace error:", error);
+            }
+        }
+
+        function renderExecutionLogs() {
+            const container = document.getElementById("trace-steps");
+            const meta = document.getElementById("trace-meta");
+            if (!container || !meta) return;
+            container.innerHTML = "";
+
+            if (executionLogsCache.length === 0) {
+                container.innerHTML = "<div class='text-slate-500 italic text-center py-4 font-sans'>No concierge operations executed yet.</div>";
+                meta.innerText = "0 steps";
+                return;
+            }
+
+            meta.innerText = `${executionLogsCache.length} steps`;
+
+            executionLogsCache.forEach(log => {
+                const div = document.createElement("div");
+                div.className = "p-2 rounded bg-slate-950 border-l-2 border-green-500 space-y-1 text-[9px] font-sans";
+                
+                let toolBadge = `<span class="badge badge-accent badge-xs font-bold text-[8px] uppercase">${log.tool_name}</span>`;
+                
+                div.innerHTML = `
+                    <div class="flex justify-between items-center text-slate-400">
+                        <span>${formatDateTime(log.created_at)}</span>
+                        ${toolBadge}
+                    </div>
+                    <div class="text-slate-200 mt-1">
+                        <strong>Parameters:</strong> <span class="text-slate-400">${JSON.stringify(log.tool_args)}</span>
+                    </div>
+                    <div class="text-green-300 overflow-x-auto max-h-16 mt-1 font-light border-t border-slate-800 pt-1 text-[8px]">
+                        <strong>Response:</strong> ${JSON.stringify(log.tool_response)}
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Chat Message render utility (Updated visual cards to use stable Unsplash photos instead of blocked wiki URLs)
+        function appendMessage(role, text) {
+            const box = document.getElementById("chat-box");
+            const isUser = role === "user";
+            const chatDiv = document.createElement("div");
+            chatDiv.className = `chat ${isUser ? "chat-end" : "chat-start"}`;
+
+            const avatarDiv = document.createElement("div");
+            avatarDiv.className = "chat-image avatar placeholder";
+            const avatarCircle = document.createElement("div");
+            avatarCircle.className = `${isUser ? "bg-orange-200 text-desert-900" : "bg-desert-800 text-white"} rounded-full w-8 h-8 flex items-center justify-center font-bold text-xs`;
+            avatarCircle.textContent = isUser ? "You" : "Staff";
+            avatarDiv.appendChild(avatarCircle);
+
+            const bubble = document.createElement("div");
+            bubble.className = `chat-bubble text-xs md:text-sm ${isUser ? "chat-bubble-neutral" : "chat-bubble-primary font-medium text-left"}`;
+            
+            if (!isUser) {
+                let formatted = text
+                    .replace(/^#+\s+(.*)$/gm, '<strong class="text-sm block border-b pb-1 mb-1 font-bold text-amber-200 font-luxury">$1</strong>')
+                    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                    .replace(/\n/g, '<br>');
+
+                const lowerText = text.toLowerCase();
+                
+                // Hotel Cards
+                if (lowerText.includes("hotel") || lowerText.includes("w amman") || lowerText.includes("alqasr") || lowerText.includes("kempinski") || lowerText.includes("larsa") || lowerText.includes("movenpick")) {
+                    let hotelName = "Premium Accommodation";
+                    let price = "$95/night";
+                    let stars = "★★★★";
+                    let imgUrl = "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=500&auto=format&fit=crop&q=60"; // default
+                    let showCard = false;
+
+                    if (lowerText.includes("w amman")) {
+                        hotelName = "W Amman Luxury Hotel";
+                        price = "$180/night";
+                        stars = "★★★★★";
+                        imgUrl = "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?w=500&auto=format&fit=crop&q=60"; 
+                        showCard = true;
+                    } else if (lowerText.includes("alqasr") || lowerText.includes("al qasr")) {
+                        hotelName = "AlQasr Metropole Hotel";
+                        price = "$95/night";
+                        stars = "★★★★";
+                        imgUrl = "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=500&auto=format&fit=crop&q=60"; 
+                        showCard = true;
+                    } else if (lowerText.includes("larsa")) {
+                        hotelName = "Larsa Hotel Amman";
+                        price = "$50/night";
+                        stars = "★★★";
+                        imgUrl = "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?w=500&auto=format&fit=crop&q=60";
+                        showCard = true;
+                    } else if (lowerText.includes("kempinski")) {
+                        hotelName = "Kempinski Hotel Ishtar Dead Sea";
+                        price = "$250/night";
+                        stars = "★★★★★";
+                        imgUrl = "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=500&auto=format&fit=crop&q=60"; 
+                        showCard = true;
+                    } else if (lowerText.includes("movenpick")) {
+                        hotelName = "Movenpick Resort Petra";
+                        price = "$220/night";
+                        stars = "★★★★★";
+                        imgUrl = "https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=500&auto=format&fit=crop&q=60"; 
+                        showCard = true;
+                    }
+
+                    if (showCard) {
+                        formatted += `
+                        <div class="card card-side bg-white border border-slate-200 shadow-md mt-3 overflow-hidden text-slate-800 max-w-sm text-left">
+                            <figure class="w-1/3 min-w-[90px]"><img src="${imgUrl}" alt="hotel" class="h-full object-cover"/></figure>
+                            <div class="card-body p-3 w-2/3">
+                                <h4 class="font-bold text-xs text-desert-800 font-luxury">${hotelName}</h4>
+                                <div class="text-amber-500 text-[10px]">${stars}</div>
+                                <div class="flex justify-between items-center mt-2 border-t pt-2 border-slate-100 font-sans">
+                                    <span class="font-black text-xs text-desert-900">${convertPrice(price.replace('$', ''))}</span>
+                                    <span class="badge badge-success badge-xs font-bold text-[8px]">Available</span>
+                                </div>
+                            </div>
+                        </div>`;
+                    }
+                }
+
+                // Place Cards (Using stable Unsplash IDs)
+                if (lowerText.includes("petra") && !lowerText.includes("hotel") && !lowerText.includes("movenpick")) {
+                    formatted += `
+                    <div class="card card-side bg-white border border-slate-200 shadow-md mt-3 overflow-hidden text-slate-800 max-w-sm text-left">
+                        <figure class="w-1/3 min-w-[90px]"><img src="https://images.unsplash.com/photo-1501232060322-aa87215ab531?w=500&auto=format&fit=crop&q=60" alt="Petra Treasury" class="h-full object-cover"/></figure>
+                        <div class="card-body p-3 w-2/3">
+                            <h4 class="font-bold text-xs text-desert-800 font-luxury">Petra Archaeological Reserve</h4>
+                            <p class="text-[9px] text-slate-500 font-sans">Ancient Nabataean World Wonder</p>
+                            <div class="text-amber-500 text-[9px] mt-1 font-sans">★★★★★ (4.8 Rating)</div>
+                        </div>
+                    </div>`;
+                } else if (lowerText.includes("wadi rum") && !lowerText.includes("hotel")) {
+                    formatted += `
+                    <div class="card card-side bg-white border border-slate-200 shadow-md mt-3 overflow-hidden text-slate-800 max-w-sm text-left">
+                        <figure class="w-1/3 min-w-[90px]"><img src="/static/wadi_rum.jpg" alt="Wadi Rum Sandstones" class="h-full object-cover"/></figure>
+                        <div class="card-body p-3 w-2/3">
+                            <h4 class="font-bold text-xs text-desert-800 font-luxury">Wadi Rum Desert Protected Area</h4>
+                            <p class="text-[9px] text-slate-500 font-sans">Immersive desert jeep safaris and camps</p>
+                            <div class="text-amber-500 text-[9px] mt-1 font-sans">★★★★★ (4.9 Rating)</div>
+                        </div>
+                    </div>`;
+                } else if (lowerText.includes("jerash") && !lowerText.includes("hotel")) {
+                    formatted += `
+                    <div class="card card-side bg-white border border-slate-200 shadow-md mt-3 overflow-hidden text-slate-800 max-w-sm text-left">
+                        <figure class="w-1/3 min-w-[90px]"><img src="/static/jerash.jpg" alt="Jerash Oval Plaza" class="h-full object-cover"/></figure>
+                        <div class="card-body p-3 w-2/3">
+                            <h4 class="font-bold text-xs text-desert-800 font-luxury">Decapolis Ruins of Jerash</h4>
+                            <p class="text-[9px] text-slate-500 font-sans">Magnificent Roman arches and colonnades</p>
+                            <div class="text-amber-500 text-[9px] mt-1 font-sans">★★★★★ (4.7 Rating)</div>
+                        </div>
+                    </div>`;
+                }
+
+                bubble.innerHTML = formatted;
+            } else {
+                bubble.innerText = text;
+            }
+
+            chatDiv.appendChild(avatarDiv);
+            chatDiv.appendChild(bubble);
+            box.appendChild(chatDiv);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function appendTypingIndicator() {
+            const box = document.getElementById("chat-box");
+            const loader = document.createElement("div");
+            loader.id = "typing-loader";
+            loader.className = "chat chat-start";
+            loader.innerHTML = `
+                <div class="chat-image avatar placeholder">
+                    <div class="bg-desert-800 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-xs">Staff</div>
+                </div>
+                <div class="chat-bubble chat-bubble-primary text-xs md:text-sm flex items-center space-x-2">
+                    <span>Drafting proposed itinerary...</span>
+                    <span class="loading loading-dots loading-xs"></span>
+                </div>
+            `;
+            box.appendChild(loader);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const loader = document.getElementById("typing-loader");
+            if (loader) loader.remove();
+        }
+
+        async function resetCurrentSession() {
+            if (currentConversationId) await deleteConversation(currentConversationId);
+            else await startNewChat();
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById("sidebar-container");
+            sidebar.classList.toggle("hidden");
+        }
+
+        async function renameChat(id, oldTitle) {
+            const newTitle = prompt("Provide custom title for this session:", oldTitle);
+            if (newTitle === null) return;
+            const trimmed = newTitle.trim();
+            if (trimmed === "") return;
+
+            try {
+                const response = await fetch(`/conversations/${encodeURIComponent(id)}/rename`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ title: trimmed })
+                });
+                if (!response.ok) throw new Error("Rename failed");
+                await fetchChatHistory(false);
+                chatHistoryCache = chatHistoryCache.map(c => c.conversation_id === id ? { ...c, title: trimmed } : c);
+                renderChatHistory();
+
+                if (currentConversationId === id) {
+                    const current = chatHistoryCache.find(c => c.conversation_id === id);
+                    updateSessionHeader(trimmed, id, current ? current.created_at : null);
+                }
+            } catch (error) {
+                console.error("Rename error:", error);
+                alert("Could not update chat name.");
+            }
+        }
+
+        function updateSessionHeader(title, id, date) {
+            document.getElementById("session-title").innerText = title || "Royal Concierge";
+            if (date) {
+                document.getElementById("session-date").innerText = `Started: ${formatDateTime(date)}`;
+            }
+        }
+
+
+        // ==========================================
+        // ADMIN REVIEW PORTAL JS LOGIC (Part 19)
+        // ==========================================
+        let adminActiveItem = null;
+
+        async function refreshAdminData() {
+            try {
+                // Fetch leads
+                const leadsResp = await fetch("/admin/leads");
+                const leads = await leadsResp.json();
+                const leadsList = document.getElementById("admin-leads-list");
+                leadsList.innerHTML = "";
+                
+                let totalLeadsBudgetUsd = 0;
+                
+                if (leads.length === 0) {
+                    leadsList.innerHTML = "<div class='text-gray-400 italic text-center p-2 text-xs'>No leads recorded.</div>";
+                } else {
+                    leads.forEach(lead => {
+                        const div = document.createElement("div");
+                        const statusColor = lead.status === "approved" ? "badge-success" : (lead.status === "rejected" ? "badge-error" : "badge-warning");
+                        div.className = "p-2 rounded border cursor-pointer hover:bg-slate-50 flex justify-between items-center transition bg-slate-50 text-xs";
+                        div.onclick = () => selectAdminItem("lead", lead);
+                        div.innerHTML = `
+                            <div>
+                                <strong class="text-slate-800">${lead.lead_id}</strong>
+                                <span class="block text-[9px] text-gray-400">${formatDateTime(lead.created_at)}</span>
+                            </div>
+                            <span class="badge badge-xs ${statusColor}">${lead.status}</span>
+                        `;
+                        leadsList.appendChild(div);
+                        
+                        totalLeadsBudgetUsd += lead.estimated_cost || 0;
+                    });
+                }
+
+                // Fetch Bookings
+                const bookingsResp = await fetch("/admin/bookings");
+                const bookings = await bookingsResp.json();
+                const bookingsList = document.getElementById("admin-bookings-list");
+                bookingsList.innerHTML = "";
+
+                if (bookings.length === 0) {
+                    bookingsList.innerHTML = "<div class='text-gray-400 italic text-center p-2 text-xs'>No bookings recorded.</div>";
+                } else {
+                    bookings.forEach(booking => {
+                        const div = document.createElement("div");
+                        const statusColor = booking.status === "booked" ? "badge-success" : "badge-warning";
+                        div.className = "p-2 rounded border cursor-pointer hover:bg-slate-50 flex justify-between items-center transition bg-slate-50 text-xs";
+                        div.onclick = () => selectAdminItem("booking", booking);
+                        div.innerHTML = `
+                            <div>
+                                <strong class="text-slate-800">${booking.booking_id}</strong>
+                                <span class="block text-[9px] text-gray-400">${formatDateTime(booking.created_at)}</span>
+                            </div>
+                            <span class="badge badge-xs ${statusColor}">${booking.status}</span>
+                        `;
+                        bookingsList.appendChild(div);
+                    });
+                }
+
+                // Populate Analytics Dashboard Stats
+                document.getElementById("stat-total-bookings").innerText = bookings.length;
+                
+                const avgBudget = leads.length > 0 ? (totalLeadsBudgetUsd / leads.length) : 0;
+                document.getElementById("stat-avg-budget").innerText = `$${avgBudget.toFixed(2)}`;
+
+            } catch (error) {
+                console.error("Admin portal data fetch error:", error);
+            }
+        }
+
+        async function selectAdminItem(type, item) {
+            adminActiveItem = { type, item };
+            document.getElementById("admin-details-placeholder").classList.add("hidden");
+            const content = document.getElementById("admin-details-content");
+            content.classList.remove("hidden");
+
+            // Header mapping
+            document.getElementById("review-item-type").innerText = type.toUpperCase();
+            document.getElementById("review-item-type").className = type === "lead" ? "badge badge-sm badge-info mb-1" : "badge badge-sm badge-warning mb-1";
+            document.getElementById("review-item-id").innerText = type === "lead" ? item.lead_id : item.booking_id;
+            document.getElementById("review-item-date").innerText = `Logged: ${formatDateTime(item.created_at)}`;
+            
+            const cost = item.estimated_cost ?? item.total_price;
+            document.getElementById("review-item-cost").innerText = `$${Number(cost).toFixed(2)}`;
+
+            // Profile mapping
+            const prof = item.traveler_profile || {};
+            document.getElementById("rev-dest").innerText = prof.destination || "-";
+            document.getElementById("rev-travelers").innerText = prof.adults != null ? `${prof.adults} Adults / ${prof.children || 0} Children` : "-";
+            document.getElementById("rev-dates").innerText = prof.travel_dates || "-";
+            document.getElementById("rev-budget").innerText = prof.budget != null ? `${prof.budget} ${prof.currency || "USD"}` : "-";
+            document.getElementById("rev-prefs").innerText = `Hotels: ${prof.hotel_preference || "-"} | Transport: ${prof.transportation_preference || "-"}`;
+            
+            const reqs = [...(prof.accessibility_requirements || []), ...(prof.special_requests || [])];
+            document.getElementById("rev-reqs").innerText = reqs.join(", ") || "None";
+
+            // Options mapping
+            const opt = item.selected_options || {};
+            document.getElementById("rev-hotel").innerText = item.hotel_name ?? opt.hotel ?? "-";
+            document.getElementById("rev-transport").innerText = item.transportation ?? opt.transportation ?? "-";
+            
+            const acts = item.activities ?? opt.activities ?? [];
+            document.getElementById("rev-activities").innerText = Array.isArray(acts) ? acts.join(", ") : "-";
+
+            // Review inputs mapping
+            document.getElementById("reviewer-status-select").value = item.status;
+            document.getElementById("reviewer-comments-input").value = item.reviewer_comments ?? (prof.reviewer_comments ?? "");
+
+            // Load full conversation logs for review preview
+            const logBox = document.getElementById("rev-chat-logs");
+            logBox.innerHTML = "<div class='text-gray-400 italic'>Loading chat logs...</div>";
+            try {
+                const response = await fetch(`/conversations/${encodeURIComponent(item.conversation_id)}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    logBox.innerHTML = "";
+                    (data.messages || []).forEach(msg => {
+                        const p = document.createElement("p");
+                        p.className = "mb-1.5 border-b border-slate-800 pb-1.5 text-left font-sans";
+                        p.innerHTML = `<strong class="${msg.role === 'user' ? 'text-blue-300' : 'text-green-300'}">${msg.role.toUpperCase()}:</strong> ${msg.content}`;
+                        logBox.appendChild(p);
+                    });
+                } else {
+                    logBox.innerHTML = "<div class='text-red-400 italic'>Failed to load session logs.</div>";
+                }
+            } catch (err) {
+                logBox.innerHTML = "<div class='text-red-400 italic'>Error communicating with server.</div>";
+            }
+        }
+
+        async function submitReviewAction() {
+            if (!adminActiveItem) return;
+            const type = adminActiveItem.type;
+            const item = adminActiveItem.item;
+            const itemId = type === "lead" ? item.lead_id : item.booking_id;
+            
+            const comments = document.getElementById("reviewer-comments-input").value;
+            const status = document.getElementById("reviewer-status-select").value;
+            const reviewerName = document.getElementById("reviewer-name-input").value.trim() || "Concierge Agent";
+
+            const endpoint = type === "lead" ? `/admin/leads/${itemId}/review` : `/admin/bookings/${itemId}/review`;
+            
+            try {
+                const response = await fetch(endpoint, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        status: status,
+                        comments: comments,
+                        reviewer_name: reviewerName
+                    })
+                });
+                
+                if (response.ok) {
+                    alert(`Review logged successfully! State updated to: ${status}`);
+                    await refreshAdminData();
+                    document.getElementById("admin-details-placeholder").classList.remove("hidden");
+                    document.getElementById("admin-details-content").classList.add("hidden");
+                    adminActiveItem = null;
+                } else {
+                    alert("Failed to submit concierge review decision.");
+                }
+            } catch (err) {
+                alert(`Error: ${err.message}`);
+            }
+        }
+
+        // Utility formatting functions
+        function formatDateTime(isoString) {
+            if (!isoString) return "-";
+            const date = new Date(isoString);
+            return date.toLocaleString('en-US', { 
+                month: 'short', 
+                day: 'numeric', 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+    </script>
+</body>
+</html>

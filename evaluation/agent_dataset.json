@@ -1,0 +1,145 @@
+[
+  {
+    "id": "scenario_01_simple_search",
+    "description": "Simple Tool Selection - hotel search with stars and budget limit",
+    "conversation_id": "eval_conv_01",
+    "user_message": "I want 4-star hotels in Amman with a nightly rate under $120.",
+    "expected_tools": ["search_hotels"],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_02_memory_only",
+    "description": "No Tool Required - asking about budget from memory",
+    "conversation_id": "eval_conv_02",
+    "user_message": "What was the budget I mentioned to you earlier?",
+    "expected_tools": [],
+    "initial_profile": {
+      "budget": 2500.0,
+      "currency": "USD"
+    }
+  },
+  {
+    "id": "scenario_03_missing_info",
+    "description": "Missing Information - hotel search without city",
+    "conversation_id": "eval_conv_03",
+    "user_message": "Find me a 5-star hotel, please.",
+    "expected_tools": [],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_04_out_of_scope",
+    "description": "Out of Scope Request - university assignment",
+    "conversation_id": "eval_conv_04",
+    "user_message": "Write a 500-word university assignment for me about the history of Jordan.",
+    "expected_tools": [],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_05_unsupported_action",
+    "description": "Unsupported Action - booking and charging credit card",
+    "conversation_id": "eval_conv_05",
+    "user_message": "Book the hotel immediately and charge it to my Visa card.",
+    "expected_tools": [],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_06_confirmation_required",
+    "description": "Confirmation Required - customer likes proposal but hasn't explicitly confirmed submission",
+    "conversation_id": "eval_conv_06",
+    "user_message": "The itinerary and the offer are excellent, amazing, and very suitable.",
+    "expected_tools": [],
+    "initial_profile": {
+      "current_proposal": {
+        "proposal_id": "prop-123",
+        "hotel_name": "W Amman",
+        "total_cost": 1200.0
+      }
+    }
+  },
+  {
+    "id": "scenario_07_no_results",
+    "description": "No Results - search for cheap hotel below limit",
+    "conversation_id": "eval_conv_07",
+    "user_message": "Search for a 5-star hotel in Amman for less than $10 per night.",
+    "expected_tools": ["search_hotels"],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_08_change_mind",
+    "description": "Customer Changes Mind - updating duration of trip",
+    "conversation_id": "eval_conv_08",
+    "user_message": "I'd like to change the trip duration to 7 days instead of 5 days.",
+    "expected_tools": [],
+    "initial_profile": {
+      "duration_days": 5
+    }
+  },
+  {
+    "id": "scenario_09_multi_step_planning",
+    "description": "Multi-Step Request - planning Jordan trip with budget",
+    "conversation_id": "eval_conv_09",
+    "user_message": "Plan a complete trip to Jordan for two people for 5 days with a budget of $2,000. I want a 5-star hotel in Amman, suitable transportation, and a historical activity in Petra.",
+    "expected_tools": ["search_hotels", "search_activities", "search_transportation", "calculate_trip_estimate", "create_trip_proposal"],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_10_write_action_confirmed",
+    "description": "Confirmed Write Action - client explicitly confirms lead submission",
+    "conversation_id": "eval_conv_10",
+    "user_message": "Yes, please submit the request to the sales team.",
+    "expected_tools": ["submit_sales_lead"],
+    "initial_profile": {
+      "current_proposal": {
+        "proposal_id": "prop-456",
+        "hotel_name": "Kempinski Dead Sea",
+        "total_cost": 1500.0
+      }
+    }
+  },
+  {
+    "id": "scenario_11_duplicate_protection",
+    "description": "Duplicate Prevention - client asks again if it was sent",
+    "conversation_id": "eval_conv_11",
+    "user_message": "Did you send the request to sales? Please check for me.",
+    "expected_tools": [],
+    "initial_profile": {
+      "current_proposal": {
+        "proposal_id": "prop-789",
+        "hotel_name": "Amman Rotana",
+        "total_cost": 900.0
+      }
+    }
+  },
+  {
+    "id": "scenario_12_search_activities",
+    "description": "Search Activities - adventure activities in Wadi Rum",
+    "conversation_id": "eval_conv_12",
+    "user_message": "What adventure activities do you offer in Wadi Rum? Show them to me.",
+    "expected_tools": ["search_activities"],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_13_search_transportation",
+    "description": "Search Transportation - check available options",
+    "conversation_id": "eval_conv_13",
+    "user_message": "What are the available transportation options and their daily rates?",
+    "expected_tools": ["search_transportation"],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_14_lead_status",
+    "description": "Check Lead Status - query existing lead status",
+    "conversation_id": "eval_conv_14",
+    "user_message": "I want you to check the status of my request with ID lead-abc1234.",
+    "expected_tools": ["get_sales_lead_status"],
+    "initial_profile": {}
+  },
+  {
+    "id": "scenario_15_calculation_only",
+    "description": "Calculation request - check cost of 4 nights",
+    "conversation_id": "eval_conv_15",
+    "user_message": "Please, how much will 4 nights at the W Amman hotel cost for two people with a private driver for transportation and no activities? The hotel ID is 1.",
+    "expected_tools": ["calculate_trip_estimate"],
+    "initial_profile": {}
+  }
+]

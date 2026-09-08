@@ -1,0 +1,2802 @@
+{
+  "v1": {
+    "summary": {
+      "prompt_version": "v1",
+      "valid_json_rate": 100.0,
+      "tourism_related_accuracy": 86.66666666666667,
+      "destination_accuracy": 92.3076923076923,
+      "travelers_accuracy": 84.61538461538461,
+      "duration_accuracy": 88.46153846153845,
+      "budget_amount_accuracy": 100.0,
+      "budget_currency_accuracy": 100.0,
+      "lead_qualification_accuracy": 60.0,
+      "total_hallucinations": 8,
+      "average_latency_seconds": 0.050000000000000024,
+      "total_input_tokens": 4500,
+      "total_output_tokens": 3000,
+      "total_cost_usd": 0.0012374999999999999
+    },
+    "details": [
+      {
+        "id": 1,
+        "description": "Complete standard inquiry - couple",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "November",
+          "duration_days": 5,
+          "budget_amount": 1800.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 5,
+          "budget": {
+            "amount": 1800.0,
+            "currency": "USD",
+            "includes_flights": false
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 2,
+        "description": "Inquiry with accessibility and ambiguous duration",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 4,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": null,
+          "budget_amount": 2500.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 4,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": 2500.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": false,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 3,
+        "description": "Missing budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": 6,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Cold"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 4,
+        "description": "Missing travelers count",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Egypt",
+          "adults": null,
+          "children": null,
+          "travel_period": "July / summer",
+          "duration_days": 10,
+          "budget_amount": 3000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Egypt",
+          "travelers": {
+            "adults": 1,
+            "children": 0
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 3000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": false,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 5,
+        "description": "Ambiguous dates and duration",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Italy",
+          "adults": 2,
+          "children": 1,
+          "travel_period": "late October / early November",
+          "duration_days": null,
+          "budget_amount": 4000.0,
+          "budget_currency": "EUR",
+          "lead_qualification": "Warm"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Italy",
+          "travelers": {
+            "adults": 2,
+            "children": 1
+          },
+          "duration_days": 7,
+          "budget": {
+            "amount": 4000.0,
+            "currency": "EUR",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": false,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 6,
+        "description": "Out of scope - programming assignment",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Out of Scope"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Python",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": false,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 7,
+        "description": "Out of scope - spam message",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Out of Scope"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": false,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 8,
+        "description": "Conflicting duration information",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Spain",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "September",
+          "duration_days": null,
+          "budget_amount": 2000.0,
+          "budget_currency": "EUR",
+          "lead_qualification": "Warm"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Spain",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 7,
+          "budget": {
+            "amount": 2000.0,
+            "currency": "EUR",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": false,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 9,
+        "description": "Very long inquiry with unnecessary conversational text",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "December",
+          "duration_days": 8,
+          "budget_amount": 3500.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 8,
+          "budget": {
+            "amount": 3500.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 10,
+        "description": "Arabic language inquiry - family",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Malaysia",
+          "adults": 2,
+          "children": 1,
+          "travel_period": "September",
+          "duration_days": 10,
+          "budget_amount": 3000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Malaysia",
+          "travelers": {
+            "adults": 2,
+            "children": 1
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 3000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 11,
+        "description": "Solo traveler high budget luxury",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Japan",
+          "adults": 1,
+          "children": 0,
+          "travel_period": "April / Spring",
+          "duration_days": 12,
+          "budget_amount": 15000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Japan",
+          "travelers": {
+            "adults": 1,
+            "children": 0
+          },
+          "duration_days": 12,
+          "budget": {
+            "amount": 15000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 12,
+        "description": "Group of friends backpacking low budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Greece",
+          "adults": 5,
+          "children": 0,
+          "travel_period": "August",
+          "duration_days": 14,
+          "budget_amount": 800.0,
+          "budget_currency": "EUR",
+          "lead_qualification": "Warm"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Greece",
+          "travelers": {
+            "adults": 5,
+            "children": 0
+          },
+          "duration_days": 14,
+          "budget": {
+            "amount": 800.0,
+            "currency": "EUR",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 13,
+        "description": "Mixed currency and conversion",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "France",
+          "adults": 3,
+          "children": 0,
+          "travel_period": "June",
+          "duration_days": 6,
+          "budget_amount": 2000.0,
+          "budget_currency": "JOD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "France",
+          "travelers": {
+            "adults": 3,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": 2000.0,
+            "currency": "JOD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 14,
+        "description": "Special dietary and accessibility requests",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Turkey",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "September",
+          "duration_days": 10,
+          "budget_amount": 4000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Turkey",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 4000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 15,
+        "description": "Vague destination sunny climate",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "adults": 2,
+          "children": 0,
+          "travel_period": "January",
+          "duration_days": 7,
+          "budget_amount": 2500.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Europe",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": 7,
+          "budget": {
+            "amount": 2500.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": false,
+          "travelers": false,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 16,
+        "description": "Arabic language - missing travelers and budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": null,
+          "children": null,
+          "travel_period": "October",
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": false,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 17,
+        "description": "Inquiry about flights only",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "United Arab Emirates",
+          "adults": null,
+          "children": null,
+          "travel_period": "November 15",
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "United Arab Emirates",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 18,
+        "description": "Extremely vague budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": 5,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Cold"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 5,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 19,
+        "description": "Non-existent country or fictional travel query",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Wakanda",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "winter",
+          "duration_days": 10,
+          "budget_amount": 5000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Wakanda",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 5000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 20,
+        "description": "Asking about visa requirements only",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 21,
+        "description": "Very low budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 4,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": 6,
+          "budget_amount": 100.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Cold"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 4,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": 100.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 22,
+        "description": "Out of scope - customer support complain",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Out of Scope"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": false,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 23,
+        "description": "Out of scope - Job application",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Out of Scope"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": false,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 24,
+        "description": "Multiple destination ambiguity",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "adults": 2,
+          "children": 0,
+          "travel_period": "June",
+          "duration_days": 10,
+          "budget_amount": 5000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Greece",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 5000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": false,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 25,
+        "description": "Vague travelers count and budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": null,
+          "children": null,
+          "travel_period": "October",
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 3,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": false,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 26,
+        "description": "Complete with flights and activities",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October 2026",
+          "duration_days": 7,
+          "budget_amount": 4000.0,
+          "budget_currency": "GBP",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 7,
+          "budget": {
+            "amount": 4000.0,
+            "currency": "GBP",
+            "includes_flights": true
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 27,
+        "description": "Arabic - incomplete query",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Turkey",
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Turkey",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 28,
+        "description": "Explicit no-driver and self-drive preference",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "November",
+          "duration_days": 8,
+          "budget_amount": 2000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 8,
+          "budget": {
+            "amount": 2000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 29,
+        "description": "Very short complete inquiry",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": 6,
+          "budget_amount": 1500.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": 1500.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 30,
+        "description": "Only hotel booking request",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 150,
+          "output": 100,
+          "total": 250
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October 12 to October 15",
+          "duration_days": 3,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Cold"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 3,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      }
+    ]
+  },
+  "v2": {
+    "summary": {
+      "prompt_version": "v2",
+      "valid_json_rate": 100.0,
+      "tourism_related_accuracy": 100.0,
+      "destination_accuracy": 100.0,
+      "travelers_accuracy": 96.15384615384616,
+      "duration_accuracy": 100.0,
+      "budget_amount_accuracy": 100.0,
+      "budget_currency_accuracy": 100.0,
+      "lead_qualification_accuracy": 86.66666666666667,
+      "total_hallucinations": 0,
+      "average_latency_seconds": 0.050000000000000024,
+      "total_input_tokens": 7500,
+      "total_output_tokens": 3000,
+      "total_cost_usd": 0.0014624999999999998
+    },
+    "details": [
+      {
+        "id": 1,
+        "description": "Complete standard inquiry - couple",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "November",
+          "duration_days": 5,
+          "budget_amount": 1800.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 5,
+          "budget": {
+            "amount": 1800.0,
+            "currency": "USD",
+            "includes_flights": false
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 2,
+        "description": "Inquiry with accessibility and ambiguous duration",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 4,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": null,
+          "budget_amount": 2500.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 4,
+            "children": 0
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": 2500.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 3,
+        "description": "Missing budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": 6,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Cold"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 4,
+        "description": "Missing travelers count",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Egypt",
+          "adults": null,
+          "children": null,
+          "travel_period": "July / summer",
+          "duration_days": 10,
+          "budget_amount": 3000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Egypt",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 3000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 5,
+        "description": "Ambiguous dates and duration",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Italy",
+          "adults": 2,
+          "children": 1,
+          "travel_period": "late October / early November",
+          "duration_days": null,
+          "budget_amount": 4000.0,
+          "budget_currency": "EUR",
+          "lead_qualification": "Warm"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Italy",
+          "travelers": {
+            "adults": 2,
+            "children": 1
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": 4000.0,
+            "currency": "EUR",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 6,
+        "description": "Out of scope - programming assignment",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Out of Scope"
+        },
+        "extracted": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Out of Scope"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 7,
+        "description": "Out of scope - spam message",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Out of Scope"
+        },
+        "extracted": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Out of Scope"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 8,
+        "description": "Conflicting duration information",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Spain",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "September",
+          "duration_days": null,
+          "budget_amount": 2000.0,
+          "budget_currency": "EUR",
+          "lead_qualification": "Warm"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Spain",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": 2000.0,
+            "currency": "EUR",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 9,
+        "description": "Very long inquiry with unnecessary conversational text",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "December",
+          "duration_days": 8,
+          "budget_amount": 3500.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 8,
+          "budget": {
+            "amount": 3500.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 10,
+        "description": "Arabic language inquiry - family",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Malaysia",
+          "adults": 2,
+          "children": 1,
+          "travel_period": "September",
+          "duration_days": 10,
+          "budget_amount": 3000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Malaysia",
+          "travelers": {
+            "adults": 2,
+            "children": 1
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 3000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 11,
+        "description": "Solo traveler high budget luxury",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Japan",
+          "adults": 1,
+          "children": 0,
+          "travel_period": "April / Spring",
+          "duration_days": 12,
+          "budget_amount": 15000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Japan",
+          "travelers": {
+            "adults": 1,
+            "children": 0
+          },
+          "duration_days": 12,
+          "budget": {
+            "amount": 15000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 12,
+        "description": "Group of friends backpacking low budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Greece",
+          "adults": 5,
+          "children": 0,
+          "travel_period": "August",
+          "duration_days": 14,
+          "budget_amount": 800.0,
+          "budget_currency": "EUR",
+          "lead_qualification": "Warm"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Greece",
+          "travelers": {
+            "adults": 5,
+            "children": 0
+          },
+          "duration_days": 14,
+          "budget": {
+            "amount": 800.0,
+            "currency": "EUR",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 13,
+        "description": "Mixed currency and conversion",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "France",
+          "adults": 3,
+          "children": 0,
+          "travel_period": "June",
+          "duration_days": 6,
+          "budget_amount": 2000.0,
+          "budget_currency": "JOD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "France",
+          "travelers": {
+            "adults": 3,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": 2000.0,
+            "currency": "JOD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 14,
+        "description": "Special dietary and accessibility requests",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Turkey",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "September",
+          "duration_days": 10,
+          "budget_amount": 4000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Turkey",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 4000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 15,
+        "description": "Vague destination sunny climate",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "adults": 2,
+          "children": 0,
+          "travel_period": "January",
+          "duration_days": 7,
+          "budget_amount": 2500.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": 7,
+          "budget": {
+            "amount": 2500.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": false,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 16,
+        "description": "Arabic language - missing travelers and budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": null,
+          "children": null,
+          "travel_period": "October",
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 17,
+        "description": "Inquiry about flights only",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "United Arab Emirates",
+          "adults": null,
+          "children": null,
+          "travel_period": "November 15",
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "United Arab Emirates",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 18,
+        "description": "Extremely vague budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": 5,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Cold"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 5,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 19,
+        "description": "Non-existent country or fictional travel query",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Wakanda",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "winter",
+          "duration_days": 10,
+          "budget_amount": 5000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Wakanda",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 5000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Warm"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": false
+        }
+      },
+      {
+        "id": 20,
+        "description": "Asking about visa requirements only",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 21,
+        "description": "Very low budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 4,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": 6,
+          "budget_amount": 100.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Cold"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 4,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": 100.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 22,
+        "description": "Out of scope - customer support complain",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Out of Scope"
+        },
+        "extracted": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Out of Scope"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 23,
+        "description": "Out of scope - Job application",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Out of Scope"
+        },
+        "extracted": {
+          "is_tourism_related": false,
+          "destination_country": null,
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Out of Scope"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 24,
+        "description": "Multiple destination ambiguity",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "adults": 2,
+          "children": 0,
+          "travel_period": "June",
+          "duration_days": 10,
+          "budget_amount": 5000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": null,
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 10,
+          "budget": {
+            "amount": 5000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 25,
+        "description": "Vague travelers count and budget",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": null,
+          "children": null,
+          "travel_period": "October",
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 26,
+        "description": "Complete with flights and activities",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October 2026",
+          "duration_days": 7,
+          "budget_amount": 4000.0,
+          "budget_currency": "GBP",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 7,
+          "budget": {
+            "amount": 4000.0,
+            "currency": "GBP",
+            "includes_flights": true
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 27,
+        "description": "Arabic - incomplete query",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Turkey",
+          "adults": null,
+          "children": null,
+          "travel_period": null,
+          "duration_days": null,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Incomplete"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Turkey",
+          "travelers": {
+            "adults": null,
+            "children": null
+          },
+          "duration_days": null,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Incomplete"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 28,
+        "description": "Explicit no-driver and self-drive preference",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "November",
+          "duration_days": 8,
+          "budget_amount": 2000.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 8,
+          "budget": {
+            "amount": 2000.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 29,
+        "description": "Very short complete inquiry",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October",
+          "duration_days": 6,
+          "budget_amount": 1500.0,
+          "budget_currency": "USD",
+          "lead_qualification": "Hot"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 6,
+          "budget": {
+            "amount": 1500.0,
+            "currency": "USD",
+            "includes_flights": null
+          },
+          "lead_qualification": "Hot"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      },
+      {
+        "id": 30,
+        "description": "Only hotel booking request",
+        "success": true,
+        "latency": 0.05,
+        "tokens": {
+          "input": 250,
+          "output": 100,
+          "total": 350
+        },
+        "ground_truth": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "adults": 2,
+          "children": 0,
+          "travel_period": "October 12 to October 15",
+          "duration_days": 3,
+          "budget_amount": null,
+          "budget_currency": null,
+          "lead_qualification": "Cold"
+        },
+        "extracted": {
+          "is_tourism_related": true,
+          "destination_country": "Jordan",
+          "travelers": {
+            "adults": 2,
+            "children": 0
+          },
+          "duration_days": 3,
+          "budget": {
+            "amount": null,
+            "currency": null,
+            "includes_flights": null
+          },
+          "lead_qualification": "Cold"
+        },
+        "correctness": {
+          "is_tourism_related": true,
+          "destination_country": true,
+          "travelers": true,
+          "duration_days": true,
+          "budget_amount": true,
+          "budget_currency": true,
+          "lead_qualification": true
+        }
+      }
+    ]
+  }
+}

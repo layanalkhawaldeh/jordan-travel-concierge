@@ -1,0 +1,482 @@
+[
+  {
+    "id": 1,
+    "description": "Complete standard inquiry - couple",
+    "message": "We are a couple from Germany planning to visit Jordan in November. We have around 5 days and would like to visit Petra, Wadi Rum and the Dead Sea. Our budget is approximately $1,800 excluding flights. We prefer 4-star hotels and would like a private driver. Can you prepare something for us?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "November",
+      "duration_days": 5,
+      "budget_amount": 1800.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 2,
+    "description": "Inquiry with accessibility and ambiguous duration",
+    "message": "Hi, we're a family of four planning to visit Jordan around October for maybe 6 or 7 days. We'd really like Petra and Wadi Rum. Budget is around $2,500. My father is travelling with us and cannot walk for long distances. We prefer comfortable hotels and maybe a private driver.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 4,
+      "children": 0,
+      "travel_period": "October",
+      "duration_days": null,
+      "budget_amount": 2500.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 3,
+    "description": "Missing budget",
+    "message": "Hi, we are planning to visit Jordan in October. There are two of us and we want to see Petra, Jerash, and Amman. We have 6 days. Can you prepare a proposal?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "October",
+      "duration_days": 6,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Cold"
+    }
+  },
+  {
+    "id": 4,
+    "description": "Missing travelers count",
+    "message": "Hello, I want to plan a trip to Egypt next summer around July. I have a budget of $3,000 and would like to stay for 10 days. I'm interested in Cairo, Luxor and Hurghada.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Egypt",
+      "adults": null,
+      "children": null,
+      "travel_period": "July / summer",
+      "duration_days": 10,
+      "budget_amount": 3000.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 5,
+    "description": "Ambiguous dates and duration",
+    "message": "Maybe around the end of October or early November. Probably around a week. We are a family of 3 (2 adults and a child). We want to go to Italy. Budget is 4000 Euros.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Italy",
+      "adults": 2,
+      "children": 1,
+      "travel_period": "late October / early November",
+      "duration_days": null,
+      "budget_amount": 4000.0,
+      "budget_currency": "EUR",
+      "lead_qualification": "Warm"
+    }
+  },
+  {
+    "id": 6,
+    "description": "Out of scope - programming assignment",
+    "message": "Can you write a python script that implements a bubble sort algorithm and explain its time complexity?",
+    "ground_truth": {
+      "is_tourism_related": false,
+      "destination_country": null,
+      "adults": null,
+      "children": null,
+      "travel_period": null,
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Out of Scope"
+    }
+  },
+  {
+    "id": 7,
+    "description": "Out of scope - spam message",
+    "message": "Earn $500 a day working from home! Click this link to register for our free webinar and start making money now!",
+    "ground_truth": {
+      "is_tourism_related": false,
+      "destination_country": null,
+      "adults": null,
+      "children": null,
+      "travel_period": null,
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Out of Scope"
+    }
+  },
+  {
+    "id": 8,
+    "description": "Conflicting duration information",
+    "message": "We want to book a trip to Spain for 5 days. Actually, scratch that, we might stay for 7 days instead. There are 2 adults and our budget is 2000 EUR. We plan to go in September.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Spain",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "September",
+      "duration_days": null,
+      "budget_amount": 2000.0,
+      "budget_currency": "EUR",
+      "lead_qualification": "Warm"
+    }
+  },
+  {
+    "id": 9,
+    "description": "Very long inquiry with unnecessary conversational text",
+    "message": "Hello there! Hope you are having a wonderful week. It's been a crazy year, and my husband and I finally got some time off from work. We were talking with our neighbors, and they said Jordan is beautiful. We've seen pictures of the Treasury in Petra, it looks amazing! So we decided to travel there this December. We have exactly 8 days off. We saved up a budget of about $3,500. We hate driving in foreign countries, so we definitely need a private driver. And we love luxury, so 5-star hotels are a must. Looking forward to your email!",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "December",
+      "duration_days": 8,
+      "budget_amount": 3500.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 10,
+    "description": "Arabic language inquiry - family",
+    "message": "مرحبا، حابين نسافر أنا وزوجتي وبنتي على ماليزيا بشهر 9 لمدة 10 أيام، ميزانيتنا حوالي 3000 دولار، بدنا فنادق ممتازة وسائق خاص. شو بتقدروا تجهزولنا؟",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Malaysia",
+      "adults": 2,
+      "children": 1,
+      "travel_period": "September",
+      "duration_days": 10,
+      "budget_amount": 3000.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 11,
+    "description": "Solo traveler high budget luxury",
+    "message": "I am a solo traveler planning a high-end luxury trip to Japan next Spring around April. My budget is $15,000 for a 12-day stay. I want 5-star traditional Ryokans and a private tour guide in Tokyo and Kyoto.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Japan",
+      "adults": 1,
+      "children": 0,
+      "travel_period": "April / Spring",
+      "duration_days": 12,
+      "budget_amount": 15000.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 12,
+    "description": "Group of friends backpacking low budget",
+    "message": "Hey! A group of 5 of us (all adults) are looking to backpack through Greece in August. We only have 800 EUR total for a 14-day trip. We want cheap hostels. Can you suggest an itinerary?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Greece",
+      "adults": 5,
+      "children": 0,
+      "travel_period": "August",
+      "duration_days": 14,
+      "budget_amount": 800.0,
+      "budget_currency": "EUR",
+      "lead_qualification": "Warm"
+    }
+  },
+  {
+    "id": 13,
+    "description": "Mixed currency and conversion",
+    "message": "We are a family of 3 adults planning to visit France in June for 6 days. Our budget is 2,000 JOD. We want to see Paris and Nice.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "France",
+      "adults": 3,
+      "children": 0,
+      "travel_period": "June",
+      "duration_days": 6,
+      "budget_amount": 2000.0,
+      "budget_currency": "JOD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 14,
+    "description": "Special dietary and accessibility requests",
+    "message": "Hi, planning a trip to Turkey for 2 adults in September for 10 days. Budget is $4,000. Note: one of us uses a wheelchair, so we need fully wheelchair-accessible transport and hotels. Also, we are strictly vegan and need restaurants that cater to this.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Turkey",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "September",
+      "duration_days": 10,
+      "budget_amount": 4000.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 15,
+    "description": "Vague destination sunny climate",
+    "message": "Hello, I want to travel somewhere warm and sunny in Europe in January. There are 2 adults, 7 days. Budget is 2500 USD. We would like to visit beaches if possible.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": null,
+      "adults": 2,
+      "children": 0,
+      "travel_period": "January",
+      "duration_days": 7,
+      "budget_amount": 2500.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 16,
+    "description": "Arabic language - missing travelers and budget",
+    "message": "حابب أزور الأردن بشهر 10 الجاي مع عيلتي وبدنا نشوف العقبة والبترا ووادي رم. كم بتكلف الرحلة؟",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": null,
+      "children": null,
+      "travel_period": "October",
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 17,
+    "description": "Inquiry about flights only",
+    "message": "Hi, I just want to book a flight from Amman to Dubai on November 15. Can you help me find the cheapest flight tickets?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "United Arab Emirates",
+      "adults": null,
+      "children": null,
+      "travel_period": "November 15",
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 18,
+    "description": "Extremely vague budget",
+    "message": "We are a couple planning a 5-day trip to Jordan in October. Our budget is flexible, we just want standard hotels and a driver. What do you recommend?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "October",
+      "duration_days": 5,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Cold"
+    }
+  },
+  {
+    "id": 19,
+    "description": "Non-existent country or fictional travel query",
+    "message": "Hi, I want to book a 10-day trip to Wakanda this winter for 2 adults. We have a budget of $5,000.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Wakanda",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "winter",
+      "duration_days": 10,
+      "budget_amount": 5000.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 20,
+    "description": "Asking about visa requirements only",
+    "message": "Hello, do German citizens need a visa to enter Jordan, and how much does it cost upon arrival?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": null,
+      "children": null,
+      "travel_period": null,
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 21,
+    "description": "Very low budget",
+    "message": "Hi, we are a family of 4 planning to visit Jordan in October for 6 days. Our total budget is $100. Can you book us a 5-star hotel and a private driver for this?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 4,
+      "children": 0,
+      "travel_period": "October",
+      "duration_days": 6,
+      "budget_amount": 100.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Cold"
+    }
+  },
+  {
+    "id": 22,
+    "description": "Out of scope - customer support complain",
+    "message": "I booked a trip with your agency last week, and the driver was 2 hours late! I demand a refund for the transfer service immediately. My booking reference is TRP-9921.",
+    "ground_truth": {
+      "is_tourism_related": false,
+      "destination_country": null,
+      "adults": null,
+      "children": null,
+      "travel_period": null,
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Out of Scope"
+    }
+  },
+  {
+    "id": 23,
+    "description": "Out of scope - Job application",
+    "message": "Dear HR Team, I am writing to apply for the position of Senior Tour Guide at your company. Please find attached my CV and cover letter.",
+    "ground_truth": {
+      "is_tourism_related": false,
+      "destination_country": null,
+      "adults": null,
+      "children": null,
+      "travel_period": null,
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Out of Scope"
+    }
+  },
+  {
+    "id": 24,
+    "description": "Multiple destination ambiguity",
+    "message": "We are looking for a honeymoon trip for a couple. We are thinking about either Greece, Italy, or maybe France, around June next year. We want to spend 10 days, budget is $5,000 excluding flights.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": null,
+      "adults": 2,
+      "children": 0,
+      "travel_period": "June",
+      "duration_days": 10,
+      "budget_amount": 5000.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 25,
+    "description": "Vague travelers count and budget",
+    "message": "Hi, we are planning to visit Jordan in October. There are a few of us coming. We don't have a huge budget but want a good experience. Can you send a quote?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": null,
+      "children": null,
+      "travel_period": "October",
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 26,
+    "description": "Complete with flights and activities",
+    "message": "Hello, we are a couple from the UK. We want to visit Jordan in October 2026 for exactly 7 days. Our budget is 4,000 GBP, including flights. We are interested in hiking in Dana, visiting Petra, sleeping in Wadi Rum, and diving in Aqaba. We want 3-star hotels.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "October 2026",
+      "duration_days": 7,
+      "budget_amount": 4000.0,
+      "budget_currency": "GBP",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 27,
+    "description": "Arabic - incomplete query",
+    "message": "بدي أسافر أنا وعيلتي على تركيا، شو في عندكم عروض وسكن؟ ميزانيتنا مقبولة.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Turkey",
+      "adults": null,
+      "children": null,
+      "travel_period": null,
+      "duration_days": null,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Incomplete"
+    }
+  },
+  {
+    "id": 28,
+    "description": "Explicit no-driver and self-drive preference",
+    "message": "Hi, 2 adults visiting Jordan in November for 8 days. Budget $2000. We will rent a car and drive ourselves, so NO private drivers. We prefer boutique hotels.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "November",
+      "duration_days": 8,
+      "budget_amount": 2000.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 29,
+    "description": "Very short complete inquiry",
+    "message": "Jordan trip for 2 adults, 6 days, October. Budget $1500. Petra and Dead Sea. Need driver.",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "October",
+      "duration_days": 6,
+      "budget_amount": 1500.0,
+      "budget_currency": "USD",
+      "lead_qualification": "Hot"
+    }
+  },
+  {
+    "id": 30,
+    "description": "Only hotel booking request",
+    "message": "Hi, I need to book a room at the Marriott Hotel in Dead Sea, Jordan from October 12 to October 15. Total 2 adults. Can you get me a rate?",
+    "ground_truth": {
+      "is_tourism_related": true,
+      "destination_country": "Jordan",
+      "adults": 2,
+      "children": 0,
+      "travel_period": "October 12 to October 15",
+      "duration_days": 3,
+      "budget_amount": null,
+      "budget_currency": null,
+      "lead_qualification": "Cold"
+    }
+  }
+]
