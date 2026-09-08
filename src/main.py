@@ -2,7 +2,7 @@ import sys
 import os
 # Add the 'src' directory to python path to resolve internal imports (like 'from schemas import...')
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), ".")))
-
+from pathlib import Path
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -23,8 +23,12 @@ app = FastAPI(
     version="2.0.0"
 )
 
-app.mount("/static", StaticFiles(directory="/app/static"), name="static")
+from pathlib import Path
 
+BASE_DIR = Path(__file__).resolve().parent.parent
+STATIC_DIR = BASE_DIR / "static"
+
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 # Startup event to automatically seed the database
 @app.on_event("startup")
 def startup_db():
